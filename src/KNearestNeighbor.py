@@ -34,7 +34,9 @@ class KNearestNeighbor(NearestNeighbor):
         # check all lines in test set against training set
         local_result = 0
         for line in one:
-            local_result += self.getNearestNeighbor(line, all)
+            closest = self.getNearestNeighbor(line, all)
+            # classify 1 if correct, 0 if incorrect
+            local_result += self.classify(line[self.data_set.class_location],closest)
         results[1] += local_result
 
     def getNearestNeighbor(self,line,train_set):
@@ -66,13 +68,16 @@ class KNearestNeighbor(NearestNeighbor):
         # Below This will most likely get separated into a classify function
         # pop off k smallest values
         closest = heapq.nsmallest(self.k, tuple_arr)
+        return closest
+
+    def classify(self,actual_class,closest):
         occurrence_dict = {}
         # Add up class occurrences
-        for i in range(0,len(closest)):
+        for i in range(0, len(closest)):
             if closest[i][1] not in occurrence_dict:
                 occurrence_dict[closest[i][1]] = 1
             else:
-                occurrence_dict[closest[i][1]]+=1
+                occurrence_dict[closest[i][1]] += 1
         # find the max occurrence of class from the count before
         max_class_num = -1
         max_class = ""
@@ -82,7 +87,7 @@ class KNearestNeighbor(NearestNeighbor):
                 max_class = class_key
                 max_class_num = occurrences
         # if our max occurrence was the same as the actual class, return a 1
-        if max_class == line[self.data_set.class_location]:
+        if max_class == actual_class:
             return 1
         # else return a 0
         else:
