@@ -6,8 +6,9 @@ from ReadFile import ReadFile
 class DataSet():
     data = None
     file_path = None
-
-    def __init__(self, file_path, missing_value=None, columns=None):
+    class_location = None
+    def __init__(self, file_path, class_location, missing_value=None, columns=None):
+        self.class_location = class_location
         self.file_path = file_path
         self.data = ReadFile.read(self,file_path)
         if missing_value is not None and columns is not None:

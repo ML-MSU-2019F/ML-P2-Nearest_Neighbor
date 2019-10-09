@@ -1,7 +1,10 @@
 from abc import ABC, abstractmethod
-class NearestNeighbor(ABC):
+from Algorithm import Algorithm
+class NearestNeighbor(Algorithm):
+    classify_or_regress = None
     #constructor
     def __init__(self,classify_or_regress):
+        self.classify_or_regress = classify_or_regress
         pass
     def getNearestNeighbor(self,data_line):
         pass

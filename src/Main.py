@@ -1,14 +1,20 @@
 from DataSet import DataSet
+from KNearestNeighbor import KNearestNeighbor
 x_fold_validation = 10
-#get data set
-abalone = DataSet("../data/abalone.data")
-#create a random map to pick from
+def main():
 
-abalone.makeRandomMap(x_fold_validation)
-for i in range(0, x_fold_validation):
-    one = abalone.getRandomMap(i)
-    rest = abalone.getAllRandomExcept(i)
-    #here we would train using rest, then classify/regress one
+    abalone = DataSet("../data/abalone.data", 0)
+    knn = KNearestNeighbor(5)
+    abalone.runAlgorithm(knn)
+
+    segmentation = DataSet("../data/segmentation.data", 0)
+    knn = KNearestNeighbor(5)
+    segmentation.runAlgorithm(knn)
+
+if __name__ == '__main__':
+    main()
 
 
-print("debug")
+
+
+#print("debug")
