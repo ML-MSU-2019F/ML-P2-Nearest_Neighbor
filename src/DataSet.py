@@ -15,20 +15,30 @@ class DataSet():
         self.class_location = class_location
         self.file_path = file_path
         self.data = ReadFile.read(self,file_path)
-        # self.data = numpy.array(self.data)
-        # hasCategorical = self.generateNumericMap()
-        # if class_location is not None:
-        #     pure_data = self.separateClassFromData()
-        #     np_array = numpy.array(pure_data)
-        #     np_array = np_array / np_array.max(axis=0)
-        #     self.data = self.joinClassAndData(np_array)
-        #     print()
-
-        # np_array = numpy.array(self.data)
-        # np_array = numpy.linalg.norm(np_array)
-
+        self.data = numpy.array(self.data)
+        hasCategorical = self.generateNumericMap()
+        if hasCategorical:
+            for i in range(0,len(self.continuous_map)):
+                if(not self.continuous_map[i]):
+                    count = self.getCountInColumn(i)
+        if class_location is not None:
+            pure_data = self.separateClassFromData()
+            np_array = numpy.array(pure_data)
+            np_array = np_array / np_array.max(axis=0)
+            self.data = self.joinClassAndData(np_array)
+            print()
         if missing_value is not None and columns is not None:
             self.imputeData(missing_value, columns)
+
+    def getCountInColumn(self,column):
+        count_dict = {}
+        for i in range(0,len(self.data)):
+            value = self.data[i][column]
+            if value not in count_dict:
+                count_dict[value] = 1
+            else:
+                count_dict[value] += 1
+        return count_dict
 
     def separateClassFromData(self):
         result = []
@@ -50,7 +60,7 @@ class DataSet():
         return result
 
     def generateNumericMap(self):
-        result = True
+        result = False
         for i in range(0,len(self.data[0])):
             if i is self.class_location:
                 continue
@@ -58,7 +68,7 @@ class DataSet():
                 float(self.data[0][i])
                 self.continuous_map.append(True)
             except ValueError:
-                result = False
+                result = True
                 self.continuous_map.append(False)
         return result
 

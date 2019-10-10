@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdff9927-8acb-45b4-b1e1-6001dab851f7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ML-P2-Nearest_Neighbor.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ML-P2-Nearest_Neighbor.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataSet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/KNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/KNearestNeighbor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -96,13 +96,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/Main.py</url>
-          <line>19</line>
+          <line>26</line>
           <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/DataSet.py</url>
-          <line>98</line>
-          <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/KNearestNeighbor.py</url>
@@ -110,9 +105,9 @@
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/DataSet.py</url>
-          <line>29</line>
-          <option name="timeStamp" value="31" />
+          <url>file://$PROJECT_DIR$/src/EditedNearestNeighbor.py</url>
+          <line>16</line>
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

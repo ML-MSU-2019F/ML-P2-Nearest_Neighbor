@@ -42,43 +42,28 @@ class KNearestNeighbor(NearestNeighbor):
     def getNearestNeighbor(self,line,train_set):
         # Iterate through all values in the training set
         distance_array = []
-        occurrence_dict = {}
-        # for i in range(0,len(self.data_set.continuous_map)):
-        #     if not self.data_set.continuous_map[i]:
-        #         occurrence_dict[i] = {}
-        #         for j in range(0,len(self.data_set[0])):
-        #             value = self.data_set[i][j]
-        #             if value not in occurrence_dict[i]:
-        #                 occurrence_dict[i][value] = 1
-        #             else:
-        #                 occurrence_dict[i][value] += 1
-        for index in range(0,len(train_set)):
+        for index in range(0, len(train_set)):
             # Keep track of the distance away from all points
             distance_array.append([])
             # check how far away test_line is from line
-            for i in range(0,len(line)):
+            for i in range(0, len(line)):
                 # skip class index
                 if i is self.data_set.class_location:
                     continue
-                #if(self.data_set.continuous_map[i]):
-                    float_1 = float(line[i])
-                    float_2 = float(train_set[index][i])
-                    raw_distance = float_1 - float_2
-                    distance_array[index].append(raw_distance)
-                #else:
-                 #   pass
-
-
+                float_1 = float(line[i])
+                float_2 = float(train_set[index][i])
+                raw_distance = float_1 - float_2
+                distance_array[index].append((raw_distance))
         # init raw distances into numpy array
         nd_array = numpy.array(distance_array)
-        #Square each distance
-        new_distance = numpy.power(nd_array,2)
-        #take the sum of distances across rows
-        arr = numpy.sum(new_distance,1)
-        #turn arr into a tuple array so we can heap the data and get the minimums with class information
+        # Square each distance
+        new_distance = numpy.power(nd_array, 2)
+        # take the sum of distances across rows
+        arr = numpy.sum(new_distance, 1)
+        # turn arr into a tuple array so we can heap the data and get the minimums with class information
         tuple_arr = []
-        for i in range(0,len(arr)):
-            tuple_arr.append((arr[i],train_set[i][self.data_set.class_location]))
+        for i in range(0, len(arr)):
+            tuple_arr.append((arr[i], train_set[i][self.data_set.class_location]))
         # turn the tuple into a heap O(nlgn)
         heapq.heapify(tuple_arr)
 
