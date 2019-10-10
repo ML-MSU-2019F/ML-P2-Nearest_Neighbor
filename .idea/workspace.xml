@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdff9927-8acb-45b4-b1e1-6001dab851f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/CondensedNearestNeighbor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/KMeans.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CondensedNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/CondensedNearestNeighbor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataSet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/KNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/KNearestNeighbor.py" afterDir="false" />
@@ -28,7 +29,7 @@
   <component name="ProjectId" id="1RkNK61GSIRaOZ2N2IGWqgnsiXl" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="C:/Program Files (x86)/PyPy/pypy3w.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -97,13 +98,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/Main.py</url>
-          <line>28</line>
+          <line>32</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/KNearestNeighbor.py</url>
           <line>17</line>
           <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/CondensedNearestNeighbor.py</url>
+          <line>21</line>
+          <option name="timeStamp" value="50" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

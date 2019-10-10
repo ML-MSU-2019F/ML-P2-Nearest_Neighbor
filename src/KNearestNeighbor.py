@@ -14,12 +14,12 @@ class KNearestNeighbor(NearestNeighbor):
 
     def run(self,data_set: DataSet):
         self.data_set = data_set
-        results = self.runTenFold()
+        results = self.runTenFold(self.data_set.data)
         print("Accuracy {:2.2f}".format((results[1] / results[0]) * 100))
         # go through each split
 
-    def runTenFold(self):
-        self.data_set.makeRandomMap(10)
+    def runTenFold(self,data):
+        self.data_set.makeRandomMap(data, 10)
         results = multiprocessing.Array('i', [0] * 2)
         process_array = []
         for i in range(0, 10):
@@ -32,6 +32,7 @@ class KNearestNeighbor(NearestNeighbor):
         return results
 
     def foldProcess(self,num,results):
+
         one = self.data_set.getRandomMap(num)
         all = self.data_set.getAllRandomExcept(num)
         results[0] += len(one)

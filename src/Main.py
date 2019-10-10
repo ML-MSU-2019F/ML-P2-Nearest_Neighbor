@@ -15,7 +15,13 @@ def main():
 
     segmentation = DataSet("../data/segmentation.data", 0)
     cnn = CondensedNearestNeighbor(5)
+    enn = EditedNearestNeighbor(5)
+    print("Starting Condensed Nearest Neighbor")
+    print("-----------------------------------")
     segmentation.runAlgorithm(cnn)
+    print("Starting Edited Nearest Neighbor")
+    print("-----------------------------------")
+    segmentation.runAlgorithm(enn)
     # knn = KNearestNeighbor(5)
     #segmentation.runAlgorithm(knn)
     #segmentation.runAlgorithm(knn)
