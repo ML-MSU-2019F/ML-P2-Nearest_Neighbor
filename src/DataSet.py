@@ -1,5 +1,6 @@
 import random
 import Algorithm
+import numpy
 from ReadFile import ReadFile
 
 
@@ -7,12 +8,61 @@ class DataSet():
     data = None
     file_path = None
     class_location = None
-    def __init__(self, file_path, class_location, missing_value=None, columns=None):
+    continuous_map = []
+    class_array = []
+    data_array = []
+    def __init__(self, file_path, class_location = None, missing_value=None, columns=None):
         self.class_location = class_location
         self.file_path = file_path
         self.data = ReadFile.read(self,file_path)
+        # self.data = numpy.array(self.data)
+        # hasCategorical = self.generateNumericMap()
+        # if class_location is not None:
+        #     pure_data = self.separateClassFromData()
+        #     np_array = numpy.array(pure_data)
+        #     np_array = np_array / np_array.max(axis=0)
+        #     self.data = self.joinClassAndData(np_array)
+        #     print()
+
+        # np_array = numpy.array(self.data)
+        # np_array = numpy.linalg.norm(np_array)
+
         if missing_value is not None and columns is not None:
             self.imputeData(missing_value, columns)
+
+    def separateClassFromData(self):
+        result = []
+        for i in range(0,len(self.data)):
+            result.append([])
+            for j in range(0,len(self.data[i])):
+                if j is self.class_location:continue
+                result[i].append(float(self.data[i][j]))
+        return result
+
+    def joinClassAndData(self, data):
+        result = []
+        for i in range(0,len(data)):
+            result.append([])
+            for j in range(0,len(data[i])):
+                if j is self.class_location:
+                    result[i].append(self.data[i][self.class_location])
+                result[i].append(data[i][j])
+        return result
+
+    def generateNumericMap(self):
+        result = True
+        for i in range(0,len(self.data[0])):
+            if i is self.class_location:
+                continue
+            try:
+                float(self.data[0][i])
+                self.continuous_map.append(True)
+            except ValueError:
+                result = False
+                self.continuous_map.append(False)
+        return result
+
+
 
     def runAlgorithm(self,algorithm: Algorithm):
         algorithm.run(self)

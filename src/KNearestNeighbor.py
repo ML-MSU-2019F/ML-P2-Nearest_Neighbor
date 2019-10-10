@@ -42,6 +42,16 @@ class KNearestNeighbor(NearestNeighbor):
     def getNearestNeighbor(self,line,train_set):
         # Iterate through all values in the training set
         distance_array = []
+        occurrence_dict = {}
+        # for i in range(0,len(self.data_set.continuous_map)):
+        #     if not self.data_set.continuous_map[i]:
+        #         occurrence_dict[i] = {}
+        #         for j in range(0,len(self.data_set[0])):
+        #             value = self.data_set[i][j]
+        #             if value not in occurrence_dict[i]:
+        #                 occurrence_dict[i][value] = 1
+        #             else:
+        #                 occurrence_dict[i][value] += 1
         for index in range(0,len(train_set)):
             # Keep track of the distance away from all points
             distance_array.append([])
@@ -50,8 +60,15 @@ class KNearestNeighbor(NearestNeighbor):
                 # skip class index
                 if i is self.data_set.class_location:
                     continue
-                raw_distance = float(line[i]) - float(train_set[index][i])
-                distance_array[index].append((raw_distance))
+                #if(self.data_set.continuous_map[i]):
+                    float_1 = float(line[i])
+                    float_2 = float(train_set[index][i])
+                    raw_distance = float_1 - float_2
+                    distance_array[index].append(raw_distance)
+                #else:
+                 #   pass
+
+
         # init raw distances into numpy array
         nd_array = numpy.array(distance_array)
         #Square each distance
