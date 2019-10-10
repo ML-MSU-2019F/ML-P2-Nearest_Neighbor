@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdff9927-8acb-45b4-b1e1-6001dab851f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CondensedNearestNeighbor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataSet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/KNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/KNearestNeighbor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.py" afterDir="false" />
     </list>
@@ -96,18 +97,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/Main.py</url>
-          <line>26</line>
+          <line>28</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/KNearestNeighbor.py</url>
-          <line>27</line>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/EditedNearestNeighbor.py</url>
-          <line>16</line>
-          <option name="timeStamp" value="36" />
+          <line>17</line>
+          <option name="timeStamp" value="49" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -118,6 +114,7 @@
         <watch expression="__py_debug_temp_var_1989921301" />
         <watch expression="self" />
         <watch expression="__py_debug_temp_var_910481042._wrapper" />
+        <watch expression="condensed_set[1]" />
       </configuration>
     </watches-manager>
   </component>

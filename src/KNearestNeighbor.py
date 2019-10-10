@@ -14,20 +14,24 @@ class KNearestNeighbor(NearestNeighbor):
 
     def run(self,data_set: DataSet):
         self.data_set = data_set
-        fold_validation = 10
-        data_set.makeRandomMap(fold_validation)
+        results = self.runTenFold()
+        print("Accuracy {:2.2f}".format((results[1] / results[0]) * 100))
         # go through each split
-        results = multiprocessing.Array('i',[0]*2)
+
+    def runTenFold(self):
+        self.data_set.makeRandomMap(10)
+        results = multiprocessing.Array('i', [0] * 2)
         process_array = []
-        for i in range(0,fold_validation):
-            p = multiprocessing.Process(target=self.runTenFold,args=(i, results))
+        for i in range(0, 10):
+            p = multiprocessing.Process(target=self.foldProcess, args=(i, results))
             process_array.append(p)
             p.start()
         for process in process_array:
             process.join()
-        print("Accuracy {:2.2f}".format((results[1]/results[0]) * 100))
+            process.kill()
+        return results
 
-    def runTenFold(self,num,results):
+    def foldProcess(self,num,results):
         one = self.data_set.getRandomMap(num)
         all = self.data_set.getAllRandomExcept(num)
         results[0] += len(one)
@@ -39,8 +43,11 @@ class KNearestNeighbor(NearestNeighbor):
             local_result += self.classify(line[self.data_set.class_location],closest)
         results[1] += local_result
 
-    def getNearestNeighbor(self,line,train_set):
+    def getNearestNeighbor(self,line,train_set,k=None):
         # Iterate through all values in the training set
+        k_local = self.k
+        if k is not None:
+            k_local = k
         distance_array = []
         for index in range(0, len(train_set)):
             # Keep track of the distance away from all points
@@ -69,7 +76,7 @@ class KNearestNeighbor(NearestNeighbor):
 
         # Below This will most likely get separated into a classify function
         # pop off k smallest values
-        closest = heapq.nsmallest(self.k, tuple_arr)
+        closest = heapq.nsmallest(k_local, tuple_arr)
         return closest
 
     def classify(self,actual_class,closest):

@@ -94,7 +94,7 @@ class DataSet():
             print("Mean was" + str(mean))
 
     def makeRandomMap(self, bins):
-        temp_data = self.data
+        temp_data = self.data[0:]
         random_map = []
         current_bin = 0
         for i in range(0, bins):

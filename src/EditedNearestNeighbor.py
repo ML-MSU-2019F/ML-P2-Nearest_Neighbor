@@ -1,25 +1,46 @@
 from KNearestNeighbor import KNearestNeighbor
-
+import numpy
 class EditedNearestNeighbor(KNearestNeighbor):
     example_set = []
+    data = None
+    data_set = None
     def run(self,data_set):
         self.data_set = data_set
-        self.data = data_set.data
-        self.example_set = self.data
-        remove_list = []
-        #doing batch removal
-        for i in range(0,len(self.data)):
-            one = self.example_set[i]
-            all = self.getAllButIndex(i)
-            nearest = self.getNearestNeighbor(one,all)
-            if(self.classify(one[self.data_set.class_location],nearest) is 0):
-                remove_list.append(i)
-        print(remove_list)
+        self.data = self.data_set.data
+        original_result = self.runTenFold()
+        last_accuracy = original_result[1] / original_result[0]
+        print("Accuracy on iteration {} {:2.2f}".format(0, (last_accuracy) * 100))
 
-    def getAllButIndex(self,index):
+        #doing batch removal
+        last_data = None
+        iterations = 0
+        while True:
+            last_data = self.data
+            remove_list = []
+            iterations+=1
+            for i in range(0,len(self.data)):
+                one = self.data[i]
+                all = self.getAllButIndex(i,self.data)
+                closest = self.getNearestNeighbor(one,all)
+                if(self.classify(one[self.data_set.class_location],closest) is 0):
+                    remove_list.append(i)
+            remove_offset = 0
+            for remove in remove_list:
+                del self.data[remove - remove_offset]
+                remove_offset+=1
+            result = self.runTenFold()
+            accuracy = result[1] / result[0]
+            print("Accuracy on iteration {} {:2.2f}".format(iterations,(accuracy) * 100))
+            if accuracy > last_accuracy:
+                last_accuracy = accuracy
+            else:
+                break
+
+
+    def getAllButIndex(self,index,example_set):
         result = []
-        for i in range(0,len(self.data)):
-            result.append(i)
+        for i in range(0,len(example_set)):
+            result.append(example_set[i])
             if i is index:
                 continue
         return result
