@@ -37,7 +37,7 @@ class EditedNearestNeighbor(KNearestNeighbor):
                 last_accuracy = accuracy
             else:
                 break
-        self.final_data = last_data
+        self.data_set.algo_result = last_data
     def getAllButIndex(self,index,example_set):
         result = []
         for i in range(0,len(example_set)):

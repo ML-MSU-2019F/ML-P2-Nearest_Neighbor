@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdff9927-8acb-45b4-b1e1-6001dab851f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/KMeans.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CondensedNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/CondensedNearestNeighbor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/segmentation.data" beforeDir="false" afterPath="$PROJECT_DIR$/data/segmentation.data" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataSet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/KMeans.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/KMeans.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/KNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/KNearestNeighbor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.py" afterDir="false" />
     </list>
@@ -98,7 +98,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/Main.py</url>
-          <line>32</line>
+          <line>33</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -107,9 +107,9 @@
           <option name="timeStamp" value="49" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/CondensedNearestNeighbor.py</url>
-          <line>21</line>
-          <option name="timeStamp" value="50" />
+          <url>file://$PROJECT_DIR$/src/KMeans.py</url>
+          <line>55</line>
+          <option name="timeStamp" value="66" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -121,6 +121,9 @@
         <watch expression="self" />
         <watch expression="__py_debug_temp_var_910481042._wrapper" />
         <watch expression="condensed_set[1]" />
+        <watch expression="list_centroids[1]" />
+        <watch expression="list_centroids[0]" />
+        <watch expression="train_set" />
       </configuration>
     </watches-manager>
   </component>

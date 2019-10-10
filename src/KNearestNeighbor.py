@@ -71,7 +71,7 @@ class KNearestNeighbor(NearestNeighbor):
         # turn arr into a tuple array so we can heap the data and get the minimums with class information
         tuple_arr = []
         for i in range(0, len(arr)):
-            tuple_arr.append((arr[i], train_set[i][self.data_set.class_location]))
+            tuple_arr.append((arr[i], train_set[i][self.data_set.class_location],i))
         # turn the tuple into a heap O(nlgn)
         heapq.heapify(tuple_arr)
 

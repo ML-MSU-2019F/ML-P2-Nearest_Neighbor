@@ -11,6 +11,7 @@ class DataSet():
     continuous_map = []
     class_array = []
     data_array = []
+    algo_result = []
     def __init__(self, file_path, class_location = None, missing_value=None, columns=None):
         self.class_location = class_location
         self.file_path = file_path
