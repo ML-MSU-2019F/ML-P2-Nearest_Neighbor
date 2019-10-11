@@ -5,7 +5,7 @@ class CondensedNearestNeighbor(KNearestNeighbor):
     data = None
     data_set = None
     final_data = None
-    def run(self,data_set):
+    def run(self,data_set,regression):
         self.data_set = data_set
         original_data = self.data_set.data[0:]
         condensed_set = []
@@ -32,7 +32,7 @@ class CondensedNearestNeighbor(KNearestNeighbor):
                 one = original_data[index]
                 all = condensed_set
                 closest = self.getNearestNeighbor(one,all,1)
-                if(self.classify(one[self.data_set.class_location],closest) is 0):
+                if(self.classify(one[self.data_set.target_location],closest) is 0):
                     add_list.append(index)
                 index += 1
                 if index >= len(original_data):

@@ -7,92 +7,51 @@ from ReadFile import ReadFile
 class DataSet():
     data = None
     file_path = None
-    class_location = None
-    continuous_map = []
-    class_array = []
-    data_array = []
+    target_location = None
+    date_values = {"jan":1, "feb":2, "mar":3, "apr":4, "may":5, "jun":6, "jul":7, "aug":8, "sep":9, "oct":10, "nov":11, "dec":12}
+    day_values = {"mon": 1, "tue": 2, "wed": 3, "thu": 4, "fri": 5, "sat": 6, "sun": 7}
+    low_high_values = {"vhigh": 20, "high":10, "med":5, "low": 0, "small": 0, "big": 10, "more": 6, "5more": 6}
+    date_index = None
+    day_index = None
     algo_result = []
-    def __init__(self, file_path, class_location = None, missing_value=None, columns=None):
-        self.class_location = class_location
+    regression = None
+
+    def __init__(self, file_path, target_location = None, regression = None, dates=None, days = None, predict = None, missing_value=None, columns=None, isCars=False, ignore=None):
+        self.target_location = target_location
         self.file_path = file_path
+        self.regression = regression
+        self.date_index = dates
+        self.days_index = days
         self.data = ReadFile.read(self,file_path)
-        self.data = numpy.array(self.data)
-        hasCategorical = self.generateNumericMap()
-        if hasCategorical:
-            for i in range(0,len(self.continuous_map)):
-                if(not self.continuous_map[i]):
-                    count = self.getCountInColumn(i)
-        if class_location is not None:
-            pure_data = self.separateClassFromData()
-            np_array = numpy.array(pure_data)
-            np_array = np_array / np_array.max(axis=0)
+        if ignore is not None:
+            self.data = self.removeColumns(ignore)
+        if isCars:
+            for i in range(0,len(self.data)):
+                for j in range(0,len(self.data[0])):
+                    value = self.data[i][j]
+                    if value in self.low_high_values:
+                        self.data[i][j] = self.low_high_values[value]
+        if dates is not None:
+            for i in range(0,len(self.data)):
+                self.data[i][dates] = self.date_values[self.data[i][dates]]
+        if days is not None:
+            for i in range(0,len(self.data)):
+                self.data[i][days] = self.day_values[self.data[i][days]]
+        if regression:
+            for i in range(0,len(self.data)):
+                for j in range(0,len(self.data[0])):
+                    self.data[i][j] = float(self.data[i][j])
+        if target_location is not None and not regression:
+            raw_data = self.separateClassFromData()
+            np_array = numpy.array(raw_data)
+            np_array = (np_array - np_array.min()) / (np_array.max() - np_array.min()                                       )
             self.data = self.joinClassAndData(np_array)
-            print()
-        if missing_value is not None and columns is not None:
-            self.imputeData(missing_value, columns)
 
-    def getCountInColumn(self,column):
-        count_dict = {}
-        for i in range(0,len(self.data)):
-            value = self.data[i][column]
-            if value not in count_dict:
-                count_dict[value] = 1
-            else:
-                count_dict[value] += 1
-        return count_dict
-
-    def separateClassFromData(self):
-        result = []
-        for i in range(0,len(self.data)):
-            result.append([])
-            for j in range(0,len(self.data[i])):
-                if j is self.class_location:continue
-                result[i].append(float(self.data[i][j]))
-        return result
-
-    def joinClassAndData(self, data):
-        result = []
-        for i in range(0,len(data)):
-            result.append([])
-            for j in range(0,len(data[i])):
-                if j is self.class_location:
-                    result[i].append(self.data[i][self.class_location])
-                result[i].append(data[i][j])
-        return result
-
-    def generateNumericMap(self):
-        result = False
-        for i in range(0,len(self.data[0])):
-            if i is self.class_location:
-                continue
-            try:
-                float(self.data[0][i])
-                self.continuous_map.append(True)
-            except ValueError:
-                result = True
-                self.continuous_map.append(False)
-        return result
-
-
-
-    def runAlgorithm(self,algorithm: Algorithm):
-        algorithm.run(self)
-
-    # data impution using mean value
-    def imputeData(self, missing_value, columns):
-        for column_index in columns:
-            row_total = 0
-            missing_value_indexes = []
-            for row_index in self.data:
-                if (self.data[row_index[column_index]] is missing_value):
-                    missing_value_indexes.append([row_index, column_index])
-                else:
-                    row_total += self.data[row_index[column_index]]
-            if len(missing_value_indexes) is 0:
-                print("No data to impute for: " + self.file_path + " with column " + str(column_index))
-            # we don't want to count missing values as part of the valid means
-            mean = row_total / (len(self.data) - len(missing_value_indexes))
-            print("Mean was" + str(mean))
+    def runAlgorithm(self, algorithm: Algorithm):
+        if self.regression is not None:
+            algorithm.run(self,self.regression)
+        else:
+            algorithm.run(self)
 
     def makeRandomMap(self, data, bins):
         temp_data = data[0:]
@@ -123,3 +82,56 @@ class DataSet():
 
     def getRandomMap(self, index):
         return self.random_map[index]
+
+    # Utility Functions
+
+    def separateClassFromData(self):
+        result = []
+        for i in range(0,len(self.data)):
+            result.append([])
+            for j in range(0,len(self.data[i])):
+                if j is self.target_location:continue
+                result[i].append(float(self.data[i][j]))
+        return result
+
+    def joinClassAndData(self, data):
+        result = []
+        for i in range(0,len(data)):
+            result.append([])
+            for j in range(0,len(data[i])):
+                if j is self.target_location:
+                    result[i].append(self.data[i][self.target_location])
+                result[i].append(data[i][j])
+            if len(data[i]) is self.target_location:
+                result[i].append(self.data[i][self.target_location])
+        return result
+
+    def getDateDifference(self,term1,term2):
+        # normalize through / len of values
+        return self.getRollingDifference(12, term1, term2)/len(self.date_values)
+
+    def getDayDifference(self,term1,term2):
+        return self.getRollingDifference(7,term1,term2)/len(self.day_values)
+
+    def getRollingDifference(self,length,term1,term2):
+        if term1 > term2:
+            temp = term1
+            term1 = term2
+            term2 = temp
+        distance1 = term2 - term1
+        distance2 = length - distance1
+        return min(distance1, distance2)
+
+    def removeColumns(self,columns):
+        map = {}
+        for i in columns:
+            map[i] = True
+        result = []
+        for i in range(0, len(self.data)):
+            result.append([])
+            for j in range(0, len(self.data[i])):
+                if j in map:
+                    continue
+                else:
+                    result[i].append(self.data[i][j])
+        return result

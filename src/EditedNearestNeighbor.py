@@ -5,7 +5,7 @@ class EditedNearestNeighbor(KNearestNeighbor):
     data = None
     data_set = None
     final_data = None
-    def run(self,data_set):
+    def run(self,data_set,regression):
         self.data_set = data_set
         edited_set = self.data_set.data
 
@@ -24,7 +24,7 @@ class EditedNearestNeighbor(KNearestNeighbor):
                 one = edited_set[i]
                 all = self.getAllButIndex(i,edited_set)
                 closest = self.getNearestNeighbor(one,all)
-                if(self.classify(one[self.data_set.class_location],closest) is 0):
+                if(self.classify(one[self.data_set.target_location],closest) is 0):
                     remove_list.append(i)
             remove_offset = 0
             for remove in remove_list:

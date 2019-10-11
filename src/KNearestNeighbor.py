@@ -5,22 +5,29 @@ from DataSet import DataSet
 from NearestNeighbor import NearestNeighbor
 class KNearestNeighbor(NearestNeighbor):
     # shared data_set object
-    data_set: DataSet = None
     # k nearest neighbors
     k = None
-
+    regression = None
     def __init__(self, k):
         self.k = k
 
-    def run(self,data_set: DataSet):
+    def run(self, data_set, regression):
         self.data_set = data_set
+        self.regression = regression
         results = self.runTenFold(self.data_set.data)
-        print("Accuracy {:2.2f}".format((results[1] / results[0]) * 100))
+        print(results[0])
+        print(results[1])
+        if not regression:
+            print("Accuracy {:2.2f}".format((results[1] / results[0]) * 100))
+        else:
+            print("MSE {:2.2f}".format((results[1] / results[0])))
+
         # go through each split
 
     def runTenFold(self,data):
         self.data_set.makeRandomMap(data, 10)
-        results = multiprocessing.Array('i', [0] * 2)
+        results = multiprocessing.Array('f', [0] * 2)
+        results[1] = float(results[1])
         process_array = []
         for i in range(0, 10):
             p = multiprocessing.Process(target=self.foldProcess, args=(i, results))
@@ -32,16 +39,19 @@ class KNearestNeighbor(NearestNeighbor):
         return results
 
     def foldProcess(self,num,results):
-
         one = self.data_set.getRandomMap(num)
         all = self.data_set.getAllRandomExcept(num)
         results[0] += len(one)
         # check all lines in test set against training set
         local_result = 0
         for line in one:
-            closest = self.getNearestNeighbor(line, all)
+            closest = self.getNearestNeighbor(line, all, 5)
             # classify 1 if correct, 0 if incorrect
-            local_result += self.classify(line[self.data_set.class_location],closest)
+            actual_value = line[self.data_set.target_location]
+            if not self.regression:
+                local_result += self.classify(actual_value, closest)
+            else:
+                local_result += self.regress(actual_value, closest)
         results[1] += local_result
 
     def getNearestNeighbor(self,line,train_set,k=None):
@@ -56,12 +66,18 @@ class KNearestNeighbor(NearestNeighbor):
             # check how far away test_line is from line
             for i in range(0, len(line)):
                 # skip class index
-                if i is self.data_set.class_location:
+                distance = None
+                if i is self.data_set.target_location:
                     continue
-                float_1 = float(line[i])
-                float_2 = float(train_set[index][i])
-                raw_distance = float_1 - float_2
-                distance_array[index].append((raw_distance))
+                if i is self.data_set.day_index:
+                    distance = self.data_set.getDayDifference(line[i],train_set[index][i])
+                elif i is self.data_set.date_index:
+                    distance = self.data_set.getDateDifference(line[i],train_set[index][i])
+                else:
+                    float_1 = float(line[i])
+                    float_2 = float(train_set[index][i])
+                    distance = float_1 - float_2
+                distance_array[index].append(distance)
         # init raw distances into numpy array
         nd_array = numpy.array(distance_array)
         # Square each distance
@@ -70,8 +86,12 @@ class KNearestNeighbor(NearestNeighbor):
         arr = numpy.sum(new_distance, 1)
         # turn arr into a tuple array so we can heap the data and get the minimums with class information
         tuple_arr = []
+        location = self.data_set.target_location
         for i in range(0, len(arr)):
-            tuple_arr.append((arr[i], train_set[i][self.data_set.class_location],i))
+            if location < len(train_set[i]):
+                tuple_arr.append((arr[i], train_set[i][self.data_set.target_location],i))
+            else:
+                tuple_arr.append((arr[i], 0, i))
         # turn the tuple into a heap O(nlgn)
         heapq.heapify(tuple_arr)
 
@@ -79,7 +99,15 @@ class KNearestNeighbor(NearestNeighbor):
         # pop off k smallest values
         closest = heapq.nsmallest(k_local, tuple_arr)
         return closest
+    def regress(self,actual_value,closest_values):
+        total = 0
+        for i in range(0,len(closest_values)):
+            total += float(closest_values[i][1])
+        mean = total/len(closest_values)
+        return self.MAE(float(actual_value),mean)
 
+    def MAE(self,actual,predicted):
+        return abs(actual - predicted)
     def classify(self,actual_class,closest):
         occurrence_dict = {}
         # Add up class occurrences
