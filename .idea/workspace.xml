@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdff9927-8acb-45b4-b1e1-6001dab851f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/data/winequality.data" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PAMCluster.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/forestfires.data" beforeDir="false" afterPath="$PROJECT_DIR$/data/forestfires.data" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/winequality-red.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/winequality-red.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/winequality-white.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/winequality-white.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CondensedNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/CondensedNearestNeighbor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataSet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" afterDir="false" />
@@ -14,6 +11,7 @@
       <change beforePath="$PROJECT_DIR$/src/KNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/KNearestNeighbor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/NearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/NearestNeighbor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/py.zip" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -102,13 +100,8 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/Main.py</url>
-          <line>60</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/KNearestNeighbor.py</url>
-          <line>19</line>
+          <line>25</line>
           <option name="timeStamp" value="136" />
         </line-breakpoint>
       </breakpoints>

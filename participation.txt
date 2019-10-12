@@ -1,0 +1,5 @@
+Keefer Sands - KMeans, ENN, Base Class structure
+Becket Sweeny - CNN, DataSet
+Mathew Gober - KNN, PAM, Data Importing
+
+We did a bit of pair-programming for this assignment
