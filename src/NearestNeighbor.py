@@ -1,12 +1,11 @@
 from abc import ABC, abstractmethod
 from Algorithm import Algorithm
+# The base class that lets us know what we can expect from a Nearest Neighbor Algorithm
 class NearestNeighbor(Algorithm):
-    classify_or_regress = None
     #constructor
-    def __init__(self,classify_or_regress):
-        self.classify_or_regress = classify_or_regress
+    def __init__(self):
         pass
-    def getNearestNeighbor(self,data_line):
+    def getNearestNeighbor(self,data_line,regression):
         pass
     def classify(self):
         pass

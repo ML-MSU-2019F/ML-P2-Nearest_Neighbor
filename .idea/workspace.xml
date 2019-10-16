@@ -2,8 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdff9927-8acb-45b4-b1e1-6001dab851f7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/PAMCluster.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CondensedNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/CondensedNearestNeighbor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataSet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/KMeans.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/KMeans.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/KNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/KNearestNeighbor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/NearestNeighbor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/py.zip" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,7 +32,7 @@
   <component name="ProjectId" id="1RkNK61GSIRaOZ2N2IGWqgnsiXl" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="C:/Program Files (x86)/PyPy/pypy3w.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -92,14 +100,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/Main.py</url>
-          <line>19</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/KNearestNeighbor.py</url>
-          <line>27</line>
-          <option name="timeStamp" value="11" />
+          <line>25</line>
+          <option name="timeStamp" value="136" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -108,6 +111,12 @@
         <watch expression="results._obj" />
         <watch expression="results._obj" />
         <watch expression="__py_debug_temp_var_1989921301" />
+        <watch expression="self" />
+        <watch expression="__py_debug_temp_var_910481042._wrapper" />
+        <watch expression="condensed_set[1]" />
+        <watch expression="list_centroids[1]" />
+        <watch expression="list_centroids[0]" />
+        <watch expression="train_set" />
       </configuration>
     </watches-manager>
   </component>
