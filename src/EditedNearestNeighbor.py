@@ -9,8 +9,9 @@ class EditedNearestNeighbor(KNearestNeighbor):
         #initialize edited set to be the original data
         edited_set = self.data_set.data
         # get original accuracy of ten fold on edited
-        original_result = self.runTenFold(edited_set)
-        last_accuracy = original_result[1] / original_result[0]
+        self.data_set.makeRandomMap(self.data_set.data,10)
+        random_validation_set = self.data_set.getRandomMap(0)
+        last_accuracy = self.checkAccuracyAgainstSet(edited_set,random_validation_set)
         print("Accuracy on iteration {} {:2.2f}%".format(0, (last_accuracy) * 100))
         # keep last data in case of validation degredation
         last_data = None
@@ -27,19 +28,18 @@ class EditedNearestNeighbor(KNearestNeighbor):
                 one = edited_set[i]
                 all = self.getAllButIndex(i,edited_set)
 
-                closest = self.getNearestNeighbor(one,all)
+                closest = self.getNearestNeighbor(one,all,self.k)
                 # if classification of one is wrong, add to remove list
                 if(self.classify(one[self.data_set.target_location],closest) is 0):
                     remove_list.append(i)
             remove_offset = 0
             # remove elements from the data set, keeping track of how many we removed so we can remove correctly
             for remove in remove_list:
+                print("Deleting index {}".format(remove-remove_offset))
                 del edited_set[remove - remove_offset]
                 remove_offset+=1
-            # instead of using a validation set, we are running the whole set through ten fold validation
-            # check accuracy
-            result = self.runTenFold(edited_set)
-            accuracy = result[1] / result[0]
+            # check accuracy using a validation set
+            accuracy = self.checkAccuracyAgainstSet(edited_set,random_validation_set)
             print("Accuracy on iteration {} {:2.2f}%".format(iterations,(accuracy) * 100))
             # if our accuracy was better, continue
             if accuracy > last_accuracy:

@@ -33,11 +33,8 @@ class KMeans(KNearestNeighbor):
         for i in range(0, k_centers):
             centroid_groups.append([])
         # move while its significant
-        movement = math.inf
-        while movement > .1:
-            # keep track of last movement
-            last_movement = movement
-            movement = 0
+        last_mean = None
+        while True:
             # go through the lines in our data
             for line in data:
                 one = line
@@ -51,22 +48,19 @@ class KMeans(KNearestNeighbor):
             # go through our centroid groups
             for i in range(0,k_centers):
                 # get the mean of all the values
-                if len(centroid_groups[i]) is 0:
-                    continue
                 np_array = numpy.array(centroid_groups[i])
                 mean = numpy.mean(np_array,axis=0)
-                difference = numpy.setdiff1d(mean,np_array)
-                movement += numpy.sum(difference)
                 # adjust centroid group to be the mean of the distances
                 centroids[i] = mean
             # if we didn't move from last time we are finished
-            if movement == last_movement:
+            if numpy.array_equal(last_mean,mean):
+                print("did not move, ending")
                 break
+            last_mean = mean
             # reset centroid groups
             centroid_groups = []
             for i in range(0, k_centers):
                 centroid_groups.append([])
-            print("Movement was {}".format(movement))
         # turn numpy array into regular list, with class variables/target variables put back
         list_centroids = []
         location = self.data_set.target_location
@@ -84,13 +78,13 @@ class KMeans(KNearestNeighbor):
     def getAccuracy(self):
         results = 0
         for line in self.data:
-            closest = self.getNearestNeighbor(line,self.centroids,1)
+            closest = self.getNearestNeighbor(line,self.centroids,5)
             if not self.data_set.regression:
                 results += self.classify(line[self.data_set.target_location], closest)
             else:
                 results += self.regress(line[self.data_set.target_location], closest)
         if not self.data_set.regression:
-            print("Accuracy was: {:2.2f}".format((results / len(self.data_set.data)) * 100))
+            print("Accuracy was: {:2.2f}".format((results / len(self.data)) * 100))
         else:
             print("MAE was: {:2.2f}".format(results / len(self.data_set.data)))
 
