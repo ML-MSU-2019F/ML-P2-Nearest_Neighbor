@@ -111,8 +111,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/KMeans.py</url>
-          <line>72</line>
-          <option name="timeStamp" value="139" />
+          <line>85</line>
+          <option name="timeStamp" value="142" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -127,6 +127,7 @@
         <watch expression="list_centroids[1]" />
         <watch expression="list_centroids[0]" />
         <watch expression="train_set" />
+        <watch expression="centroids[19]" />
       </configuration>
     </watches-manager>
   </component>

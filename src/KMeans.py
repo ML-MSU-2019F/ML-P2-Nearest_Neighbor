@@ -25,38 +25,43 @@ class KMeans(KNearestNeighbor):
         # holds actual centroids
         centroids = []
         # initialize based on first i indexes, which is random
+        self.data_set.makeRandomMap(data.tolist(),1)
+        rand_map = self.data_set.getRandomMap(0)[0:]
         for i in range(0,k_centers):
-            rand = random.randint(0,len(data)-1)
-            centroids.append(data[rand])
+            centroids.append(rand_map[i])
         # holds data which has a closest neighbor of a centroid
         centroid_groups = []
         for i in range(0, k_centers):
             centroid_groups.append([])
+        original_centroids = centroids[0:]
         # move while its significant
-        last_mean = None
+        last_means = None
         while True:
+            print("Moving")
             # go through the lines in our data
             for line in data:
                 one = line
                 all = centroids
                 # get the closest nearest centroid
-                closest = self.getNearestNeighbor(one,all,1)[0]
+                closest = self.getNearestNeighbor(one,all,1,skip_class=True)[0]
                 data_of_closest = all[closest[2]]
                 # get what centroid group to add line to and add it
-                centroid_group = self.getChosenCentroid(centroids,data_of_closest)
+                centroid_group = self.getChosenCentroid(centroids, data_of_closest)
                 centroid_groups[centroid_group].append(line)
             # go through our centroid groups
+            means = numpy.array([])
             for i in range(0,k_centers):
                 # get the mean of all the values
                 np_array = numpy.array(centroid_groups[i])
                 mean = numpy.mean(np_array,axis=0)
+                means = numpy.append(means, mean)
                 # adjust centroid group to be the mean of the distances
                 centroids[i] = mean
             # if we didn't move from last time we are finished
-            if numpy.array_equal(last_mean,mean):
+            if numpy.array_equal(means, last_means):
                 print("did not move, ending")
                 break
-            last_mean = mean
+            last_means = numpy.copy(means)
             # reset centroid groups
             centroid_groups = []
             for i in range(0, k_centers):
@@ -65,10 +70,10 @@ class KMeans(KNearestNeighbor):
         list_centroids = []
         location = self.data_set.target_location
         for i in range(0,len(centroids)):
-            nearest = self.getNearestNeighbor(centroids[i], original.data, 1)
+            nearest = self.getNearestNeighbor(centroids[i], self.data, 5)
             list_centroids.append([])
             list_centroids[i] = centroids[i].tolist()
-            list_centroids[i].insert(location,nearest[0][1])
+            list_centroids[i].insert(location, nearest[0][1])
         # set the result centroids
         self.centroids = list_centroids
         # see how good it was
@@ -78,7 +83,7 @@ class KMeans(KNearestNeighbor):
     def getAccuracy(self):
         results = 0
         for line in self.data:
-            closest = self.getNearestNeighbor(line,self.centroids,5)
+            closest = self.getNearestNeighbor(line, self.centroids, 5)
             if not self.data_set.regression:
                 results += self.classify(line[self.data_set.target_location], closest)
             else:

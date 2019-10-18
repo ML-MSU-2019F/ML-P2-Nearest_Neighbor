@@ -77,7 +77,7 @@ class KNearestNeighbor(NearestNeighbor):
         results[1] += local_result
 
     # get the nearest neighbor given a point, a set and k
-    def getNearestNeighbor(self,line,train_set,k=None):
+    def getNearestNeighbor(self,line,train_set,k=None,skip_class=True):
         # set k to self.k
         k_local = self.k
         # unless k is specified as an argument
@@ -94,8 +94,9 @@ class KNearestNeighbor(NearestNeighbor):
                 # skip class index
                 distance = None
                 # if we are at the target, or what we are trying to predict, skip
-                if i is self.data_set.target_location:
-                    continue
+                if skip_class:
+                    if i is self.data_set.target_location:
+                        continue
                 # if we are on a day index, get the difference between the two days
                 if i is self.data_set.day_index:
                     distance = self.data_set.getDayDifference(line[i],train_set[index][i])
@@ -121,7 +122,7 @@ class KNearestNeighbor(NearestNeighbor):
         for i in range(0, len(arr)):
             # in the case that our location has been stripped, return placeholder of 0
             if location < len(train_set[i]):
-                tuple_arr.append((arr[i], train_set[i][self.data_set.target_location],i))
+                tuple_arr.append((arr[i], train_set[i][location],i))
             else:
                 tuple_arr.append((arr[i], 0, i))
         # turn the tuple into a heap
