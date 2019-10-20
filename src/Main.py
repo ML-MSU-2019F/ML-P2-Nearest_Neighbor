@@ -2,6 +2,7 @@ from DataSet import DataSet
 from KNearestNeighbor import KNearestNeighbor
 from EditedNearestNeighbor import EditedNearestNeighbor
 from CondensedNearestNeighbor import CondensedNearestNeighbor
+from PAMClusterNew import PAMClusterNew
 from KMeans import KMeans
 import math
 def main():
@@ -27,9 +28,15 @@ def main():
     # car = DataSet("../data/car.data", target_location=6, isCars=True, regression=False)
     # runClassificationAlgorithms(car)
 
-    print("=====Image Classification based on Pixel Information=====")
+    # print("=====Image Classification based on Pixel Information=====")
+    # segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
+    # runClassificationAlgorithms(segmentation)
+
     segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
-    runClassificationAlgorithms(segmentation)
+    # PAMClusterNew(segmentation, 150)
+
+    KMeans(segmentation, 100)
+
 # run the regression based algorithms
 def runRegressionAlgorithms(dataset):
     k_values = [5,10,15]
@@ -42,7 +49,7 @@ def runRegressionAlgorithms(dataset):
     KMeans(dataset, k)
 def runClassificationAlgorithms(dataset):
     k_values = [5, 10, 15]
-    #running each algorithm in respect to each k value
+    # running each algorithm in respect to each k value
     # for i in k_values:
     #     print("Running KNN with K of {}".format(i))
     #     dataset.runAlgorithm(KNearestNeighbor(i))
@@ -52,7 +59,7 @@ def runClassificationAlgorithms(dataset):
     # for i in k_values:
     #     print("Running ENN with K of {}".format(i))
     #     dataset.runAlgorithm(EditedNearestNeighbor(i))
-    #running kmeans in respect to last ENN
+    # running kmeans in respect to last ENN
     KMeans(dataset, 20)
 
 

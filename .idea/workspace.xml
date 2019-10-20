@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdff9927-8acb-45b4-b1e1-6001dab851f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/PAMCluster.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PAMClusterNew.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CondensedNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/CondensedNearestNeighbor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataSet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/EditedNearestNeighbor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/KMeans.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/KMeans.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/KNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/KNearestNeighbor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/NearestNeighbor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/py.zip" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,7 +27,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -55,7 +49,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\Strawberry\AppData\Local\Programs\Python\Python37-32\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\Alpine\AppData\Local\Programs\Python\Python37-32\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -111,8 +105,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/KMeans.py</url>
-          <line>85</line>
-          <option name="timeStamp" value="142" />
+          <line>79</line>
+          <option name="timeStamp" value="146" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/KMeans.py</url>
+          <line>73</line>
+          <option name="timeStamp" value="147" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
