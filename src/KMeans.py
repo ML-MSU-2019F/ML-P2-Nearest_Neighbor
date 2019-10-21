@@ -1,13 +1,11 @@
-from EditedNearestNeighbor import EditedNearestNeighbor
 from KNearestNeighbor import KNearestNeighbor
 from DataSet import DataSet
-import math
 import numpy
-import random
 
 
 class KMeans(KNearestNeighbor):
     centroids = None
+
     def __init__(self, original:DataSet, k_centers):
         # initialize data, if algo was done previously on original, use it as data
         self.data_set = original
@@ -40,14 +38,10 @@ class KMeans(KNearestNeighbor):
             print("Moving")
             # go through the lines in our data
             for line in data:
-                one = line
-                all = centroids
-                # get the closest nearest centroid
-                closest = self.getNearestNeighbor(one,all,1,skip_class=False)[0]
-                data_of_closest = all[closest[2]]
-                # get what centroid group to add line to and add it
-                centroid_group = self.getChosenCentroid(centroids, data_of_closest)
-                centroid_groups[centroid_group].append(line)
+                # get the closest nearest centroid, do not skip class in distance measures
+                closest = self.getNearestNeighbor(line,centroids,1,skip_class=False)[0]
+                # closest[2] = index of line within centroids
+                centroid_groups[closest[2]].append(line)
             # go through our centroid groups
             means = numpy.array([])
             for i in range(0, k_centers):
@@ -70,35 +64,27 @@ class KMeans(KNearestNeighbor):
         list_centroids = []
         location = self.data_set.target_location
         for i in range(0, len(centroids)):
+            # shift over at the class location, this prevents getting the nearest neighbor of data from the wrong
+            # features
             centroids[i] = numpy.insert(centroids[i], location, 0)
+            # get the nearest neighbor to the mean, and assume that is the class of the mean
             nearest = self.getNearestNeighbor(centroids[i], self.data, 1)
+            # remove the shift
             centroids[i] = numpy.delete(centroids[i], location)
+            # and insert the class into the location of the shift
             list_centroids.append([])
             list_centroids[i] = centroids[i].tolist()
             list_centroids[i].insert(location, nearest[0][1])
         # set the result centroids
         self.centroids = list_centroids
         # see how good it was
+        # check the accuracy of the centroids vs the original data
         print(self.checkAccuracyAgainstSet(list_centroids, self.data, 1))
 
-    # get the accuracy of our centroids by iterating through the full data set
-    def getAccuracy(self):
-        results = 0
-        for line in self.data:
-            closest = self.getNearestNeighbor(line, self.centroids, 1)
-            if not self.data_set.regression:
-                results += self.classify(line[self.data_set.target_location], closest)
-            else:
-                results += self.regress(line[self.data_set.target_location], closest)
-        if not self.data_set.regression:
-            print("Accuracy was: {:2.2f}".format((results / len(self.data)) * 100))
-        else:
-            print("MAE was: {:2.2f}".format(results / len(self.data_set.data)))
-
     # get the index of the centroid that was chosen by getting the closest nearest neighbor
-    def getChosenCentroid(self,centroids,chosen):
+    def getChosenCentroid(self, centroids, chosen):
         chosen = numpy.array(chosen)
         centroids = numpy.array(centroids)
         for i in range(0,len(centroids)):
-            if numpy.array_equal(chosen,centroids[i]):
+            if numpy.array_equal(chosen, centroids[i]):
                 return i

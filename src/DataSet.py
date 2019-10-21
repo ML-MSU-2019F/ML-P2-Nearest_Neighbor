@@ -10,9 +10,10 @@ class DataSet():
     # used for class, and predictions
     target_location = None
     # value mappings for categorical -> continuous
-    date_values = {"jan":1, "feb":2, "mar":3, "apr":4, "may":5, "jun":6, "jul":7, "aug":8, "sep":9, "oct":10, "nov":11, "dec":12}
+    date_values = {"jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6, "jul": 7, "aug": 8, "sep": 9, "oct": 10,
+                   "nov": 11, "dec": 12}
     day_values = {"mon": 1, "tue": 2, "wed": 3, "thu": 4, "fri": 5, "sat": 6, "sun": 7}
-    low_high_values = {"vhigh": 20, "high":10, "med":5, "low": 0, "small": 0, "big": 10, "more": 6, "5more": 6}
+    low_high_values = {"vhigh": 20, "high": 10, "med": 5, "low": 0, "small": 0, "big": 10, "more": 6, "5more": 6}
     date_index = None
     day_index = None
     algo_result = []

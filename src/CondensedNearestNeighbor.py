@@ -1,25 +1,24 @@
 from KNearestNeighbor import KNearestNeighbor
-import numpy
 import random
+
+
 class CondensedNearestNeighbor(KNearestNeighbor):
     data = None
     data_set = None
-    def run(self,data_set,regression):
+
+    def run(self, data_set, regression):
         self.data_set = data_set
         original_data = self.data_set.data[0:]
-
         # init the condensed set to nothing
         condensed_set = []
         # say our last accuracy was 0
         last_accuracy = 0
         print("Accuracy on iteration {} {:2.2f}".format(0, (last_accuracy) * 100))
-        # doing batch removal
         last_data = None
         iterations = 0
         # bootstrap process by adding a single point
         original_point = original_data.pop()
         condensed_set.append(original_point)
-        degraded = False
         done = False
         accuracy = None
         # stop at 20 iterations regardless
@@ -33,7 +32,7 @@ class CondensedNearestNeighbor(KNearestNeighbor):
             # set initial index
             add_index = 0
             while True:
-                index = random.randint(0,len(original_data)-1)
+                index = random.randint(0, len(original_data)-1)
                 if add_index > len(original_data):
                     break
                 # check accuracy, if is wrong, add it to condensed set
@@ -49,7 +48,6 @@ class CondensedNearestNeighbor(KNearestNeighbor):
             # if we don't add any, we are done
             if len(add_list) is 0:
                 done = True
-                break
             # add and keep track of what we are adding
             add_offset = 0
             for i in add_list:

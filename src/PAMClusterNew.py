@@ -9,23 +9,26 @@ class PAMClusterNew(KNearestNeighbor):
     medoids = None
 
     def __init__(self, original: DataSet, medoid_count):
+        # set up original, undedited passed dataset
         self.data_set = original
         data = None
+        # if the algo result is there, use that instead
         if len(original.algo_result) is not 0:
             data = original.algo_result
         else:
             data = original.data
         self.data = data
-
+        # If its not regression, we need to separate the data from the class so that we can use numpy
         if not self.data_set.regression:
             data = original.separateClassFromData()
-
+        # initialize variable data as a numpy array of the data
         data = numpy.array(data)
 
         medoids = []
+        # simply makes sure we don't select the same random twice
         medoid_indexes = []
-        # get the initial medoids
-        while len(medoid_indexes) != medoid_count:
+        # get initial medoids based on random selection from data
+        while len(medoids) != medoid_count:
             rand = random.randint(0, len(data) - 1)
             if rand in medoid_indexes:
                 continue
@@ -39,46 +42,56 @@ class PAMClusterNew(KNearestNeighbor):
         # keep track if the medoids changed
         medoids_changed = True
         loops = 0
-        while medoids_changed and loops < 50:
+        while medoids_changed:
             print("Iteration {}".format(loops))
             loops += 1
             medoids_changed = False
             # get all closest neighbors of medoids
             for line in data:
-                one = line
-                # get the closest nearest centroid
-                closest = self.getNearestNeighbor(one, medoids, 1, skip_class=False)[0]
-                data_of_closest = medoids[closest[2]]
-                # get what centroid group to add line to and add it
-                medoid_group = self.getChosenMedoid(medoids, data_of_closest)
-                medoid_groups[medoid_group].append(line)
+                # get the closest medoid to line
+                closest = self.getNearestNeighbor(line, medoids, 1, skip_class=False)[0]
+                # closest[2] = index of medoid within the medoids list
+                medoid_groups[closest[2]].append(line)
+            # get the original distortion to compare to the swapped distortions
             medoid_original_distortion = []
             for i in range(0, len(medoids)):
+                # make the index availble for assignment
                 medoid_original_distortion.append([])
+                # get the distortion between the medoid and its group of lines closest to it
                 medoid_original_distortion[i] = self.getDistortion(medoids[i], medoid_groups[i])
-
+            # go through our medoids,
             for i in range(0, len(medoids)):
                 distortion = None
+                # set original minimum distortion equal to the distortion from original medoid
                 min_medoid_distortion = medoid_original_distortion[i]
+                # set the original min medoid equal to the original medoid
                 min_medoid = medoids[i]
+                # go through the lines relating to the medoid groups
                 for j in range(0, len(medoid_groups[i])):
+                    # get the single item in group
                     single = medoid_groups[i][j]
+                    # get all the other items
                     multi = medoid_groups[i][:j] + medoid_groups[i][j+1:]
+                    # get the distortion between the single, and other items
                     new_distortion = self.getDistortion(single, multi)
+                    # if our new distortion is less than our current min, set the mins to our current single, and the
+                    # distortion to our current max
                     if new_distortion < min_medoid_distortion:
                         min_medoid_distortion = new_distortion
                         min_medoid = single
-                # track if we had a medoid change
+                # the arrays would be equal if there was no change, if we have even a single medoid change, mark as
+                # changes and rerun the loop
                 if not numpy.array_equal(min_medoid, medoids[i]):
                     medoids_changed = True
+                # set the new medoid equal to our min medoid that we got from the loop above
                 medoids[i] = min_medoid
-        print("here we are")
+        # loop is finished, find the original class of the medoid by getting the matching data element
         for i in range(0, len(medoids)):
-            print(self.getOriginalClass(medoids[i]))
-            medoids[i] = medoids[i].tolist();
-            medoids[i].insert(self.data_set.target_location, self.getOriginalClass(medoids[i]));
-        print(medoids)
-        print(self.checkAccuracyAgainstSet(medoids, self.data, 1));
+            medoids[i] = medoids[i].tolist()
+            # insert the class back into the data
+            medoids[i].insert(self.data_set.target_location, self.getOriginalClass(medoids[i]))
+        # check the accuracy of our medoids against the original data set
+        print(self.checkAccuracyAgainstSet(medoids, self.data, 1))
 
     def getOriginalClass(self, line):
         location = self.data_set.target_location;

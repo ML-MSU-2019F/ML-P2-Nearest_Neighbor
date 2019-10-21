@@ -22,13 +22,12 @@ class EditedNearestNeighbor(KNearestNeighbor):
             # keep a list of elements to remove
             remove_list = []
             # track iterations for logging purposes
-            iterations+=1
+            iterations += 1
             # go through our edited set
             for i in range(0,len(edited_set)):
                 one = edited_set[i]
-                all = self.getAllButIndex(i,edited_set)
-
-                closest = self.getNearestNeighbor(one,all,self.k)
+                all = edited_set[i:] + edited_set[:i+1]
+                closest = self.getNearestNeighbor(one, all, self.k)
                 # if classification of one is wrong, add to remove list
                 if(self.classify(one[self.data_set.target_location],closest) is 0):
                     remove_list.append(i)
@@ -37,7 +36,7 @@ class EditedNearestNeighbor(KNearestNeighbor):
             for remove in remove_list:
                 print("Deleting index {}".format(remove-remove_offset))
                 del edited_set[remove - remove_offset]
-                remove_offset+=1
+                remove_offset += 1
             # check accuracy using a validation set
             accuracy = self.checkAccuracyAgainstSet(edited_set,random_validation_set)
             print("Accuracy on iteration {} {:2.2f}%".format(iterations,(accuracy) * 100))
@@ -50,12 +49,3 @@ class EditedNearestNeighbor(KNearestNeighbor):
         # return best accuracy, and store the result of the algorithm
         print("Best Accuracy: {:2.2f}%".format(last_accuracy * 100))
         self.data_set.algo_result = last_data
-
-    # get all but an index within a set, and return it
-    def getAllButIndex(self,index,example_set):
-        result = []
-        for i in range(0,len(example_set)):
-            result.append(example_set[i])
-            if i is index:
-                continue
-        return result

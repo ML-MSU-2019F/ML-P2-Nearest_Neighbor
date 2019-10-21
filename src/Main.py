@@ -33,7 +33,7 @@ def main():
     # runClassificationAlgorithms(segmentation)
 
     segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
-    # PAMClusterNew(segmentation, 150)
+    PAMClusterNew(segmentation, 100)
 
     KMeans(segmentation, 100)
 
