@@ -29,6 +29,11 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Strawberry\PycharmProjects\ML-P2-Nearest_Neighbor\src\NearestNeigbor" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -94,17 +99,17 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/KNearestNeighbor.py</url>
+          <url>file://$PROJECT_DIR$/src/NearestNeigbor/KNearestNeighbor.py</url>
           <line>25</line>
           <option name="timeStamp" value="136" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/EditedNearestNeighbor.py</url>
+          <url>file://$PROJECT_DIR$/src/NearestNeigbor/EditedNearestNeighbor.py</url>
           <line>49</line>
           <option name="timeStamp" value="138" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/PAMClusterNew.py</url>
+          <url>file://$PROJECT_DIR$/src/NearestNeigbor/PAMClusterNew.py</url>
           <line>53</line>
           <option name="timeStamp" value="148" />
         </line-breakpoint>

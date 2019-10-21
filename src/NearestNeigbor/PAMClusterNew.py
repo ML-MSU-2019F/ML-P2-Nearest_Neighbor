@@ -1,8 +1,7 @@
-from KNearestNeighbor import KNearestNeighbor
+from NearestNeigbor.KNearestNeighbor import KNearestNeighbor
 from DataSet import DataSet
 import numpy
 import random
-import math
 
 
 class PAMClusterNew(KNearestNeighbor):

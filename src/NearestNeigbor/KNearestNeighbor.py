@@ -1,7 +1,7 @@
 import heapq
 import multiprocessing
 import numpy
-from NearestNeighbor import NearestNeighbor
+from NearestNeigbor.NearestNeighbor import NearestNeighbor
 
 
 class KNearestNeighbor(NearestNeighbor):

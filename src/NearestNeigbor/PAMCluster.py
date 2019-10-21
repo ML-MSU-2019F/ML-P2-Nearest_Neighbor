@@ -1,7 +1,5 @@
-from EditedNearestNeighbor import EditedNearestNeighbor
-from KNearestNeighbor import KNearestNeighbor
+from NearestNeigbor.KNearestNeighbor import KNearestNeighbor
 from DataSet import DataSet
-import multiprocessing
 import math
 import numpy
 import random

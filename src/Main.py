@@ -1,9 +1,7 @@
 from DataSet import DataSet
-from KNearestNeighbor import KNearestNeighbor
-from EditedNearestNeighbor import EditedNearestNeighbor
-from CondensedNearestNeighbor import CondensedNearestNeighbor
-from PAMClusterNew import PAMClusterNew
-from KMeans import KMeans
+from NearestNeigbor.KNearestNeighbor import KNearestNeighbor
+from NearestNeigbor.PAMClusterNew import PAMClusterNew
+from NearestNeigbor.KMeans import KMeans
 import math
 def main():
     # ======Regression:

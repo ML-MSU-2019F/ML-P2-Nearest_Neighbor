@@ -1,4 +1,4 @@
-from KNearestNeighbor import KNearestNeighbor
+from NearestNeigbor.KNearestNeighbor import KNearestNeighbor
 import random
 
 
