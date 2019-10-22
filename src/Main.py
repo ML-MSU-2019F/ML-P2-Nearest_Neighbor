@@ -2,6 +2,7 @@ from DataSet import DataSet
 from NearestNeigbor.KNearestNeighbor import KNearestNeighbor
 from NearestNeigbor.PAMClusterNew import PAMClusterNew
 from NearestNeigbor.KMeans import KMeans
+from FeedForwardNetwork import FeedForwardNetwork
 import math
 def main():
     # ======Regression:
@@ -31,9 +32,14 @@ def main():
     # runClassificationAlgorithms(segmentation)
 
     segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
-    PAMClusterNew(segmentation, 100)
+    # 19 features, testing 1 hidden layer, with 10 nodes, 7 class outputs
+    ffn = FeedForwardNetwork(19, 1, [10], 7)
+    segmentation.runAlgorithm(ffn)
 
-    KMeans(segmentation, 100)
+    #
+    # PAMClusterNew(segmentation, 100)
+    #
+    # KMeans(segmentation, 100)
 
 # run the regression based algorithms
 def runRegressionAlgorithms(dataset):

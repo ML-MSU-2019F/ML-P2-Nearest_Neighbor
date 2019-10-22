@@ -2,12 +2,20 @@ from Node import Node
 
 
 class Layer:
-    prev_layer = None
-    next_layer = None
-    nodes = []
 
-    def __init__(self):
-        pass
+    def __init__(self, index):
+        self.index = index
+        self.nodes = []
+        self.prev_layer = None
+        self.next_layer = None
+        self.is_output_layer = False
+        self.is_input_layer = False
+
+    def setOutputLayer(self,isOutputLayer):
+        self.is_output_layer = isOutputLayer
+
+    def setInputLayer(self, isInputLayer):
+        self.is_input_layer = isInputLayer
 
     def addNode(self, node: Node):
         self.nodes.append(node)

@@ -60,7 +60,7 @@ class DataSet():
     # run the algorithm passed as a parameter
     def runAlgorithm(self, algorithm: Algorithm):
         if self.regression is not None:
-            algorithm.run(self,self.regression)
+            algorithm.run(self, self.regression)
         else:
             algorithm.run(self)
 
