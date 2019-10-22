@@ -1,5 +1,8 @@
 from Algorithm import Algorithm
 from Node import Node
+from Layer import Layer
+
+
 class FeedForwardNetwork(Algorithm):
     inputs = None
     hidden_layers = None
@@ -16,7 +19,7 @@ class FeedForwardNetwork(Algorithm):
 
     def inputData(self, input):
         if len(input) is not self.inputs:
-            print("Problem occurred, inputs specified: {}, inputs given: {}".format(self.inputs,len(input)))
+            print("Problem occurred, inputs specified: {}, inputs given: {}".format(self.inputs, len(input)))
             exit(1)
 
     def constructHiddenLayers(self):
@@ -26,8 +29,8 @@ class FeedForwardNetwork(Algorithm):
             print("\tHidden Layers: {}".format(self.hidden_layers))
             exit(1)
         layers = []
-        for i in range(0,self.hidden_layers):
-            layers.append([])
-            for j in range(0,self.nodes_by_layers[i]):
-                layers[i].append(Node())
-
+        for i in range(0, self.hidden_layers):
+            layer = Layer()
+            for j in range(0, self.nodes_by_layers[i]):
+                layer.addNode(Node(j))
+            layers.append(layer)

@@ -130,6 +130,7 @@ class KNearestNeighbor(NearestNeighbor):
         # pop off k smallest values and return them
         closest = heapq.nsmallest(k_local, tuple_arr)
         return closest
+
     def checkAccuracyAgainstSet(self,classify_data,test_set,k=5):
         result = 0
         for line in test_set:
@@ -140,6 +141,7 @@ class KNearestNeighbor(NearestNeighbor):
             else:
                 result += self.classify(actual, closest)
         return result/len(test_set)
+
     # regress function based on closest values and the actual value
     # the mean is taken from the closest values and used to predict
     # actual then the Mean Absolute error is given back as a return
