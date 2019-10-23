@@ -43,13 +43,13 @@ class FeedForwardNetwork(Algorithm):
                 for j in range(0, len(self.layers[i].nodes)):
                     self.layers[i].nodes[j].run()
             layer_length = len(self.layers)
-            max_weight = -math.inf # our found max weight
-            max_index = None # our found max index
-            results = [] # the results, localized from the final row
+            max_weight = -math.inf  # our found max weight
+            max_index = None  # our found max index
+            results = []  # the results, localized from the final row
             # iterate through nodes in the last row
             for i in range(0, len(self.layers[layer_length-1].nodes)):
                 # get value of single node
-                value = self.layers[layer_length-1].nodes[i]
+                value = self.layers[layer_length-1].nodes[i].output
                 # append value to local result
                 results.append(value)
                 # if greater than current max, assign to variables index, and new weight
