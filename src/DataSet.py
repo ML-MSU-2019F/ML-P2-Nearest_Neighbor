@@ -18,20 +18,23 @@ class DataSet():
     day_index = None
     algo_result = []
     regression = None
-
+    classes = []
     def __init__(self, file_path, target_location = None, regression = None, dates=None, days = None, isCars=False, ignore=None):
         # set class variables
+        self.classes = {}
+        self.ordered_classes = []
         self.target_location = target_location
         self.file_path = file_path
         self.regression = regression
         self.date_index = dates
         self.days_index = days
-        self.data = ReadFile.read(self,file_path)
+        self.data = ReadFile.read(self, file_path)
         # remove specified ignored columns
         if ignore is not None:
             self.data = self.removeColumns(ignore)
-        # cars is one of the only categorical sets we really need to map a lot of data in, so if its cars we runn it against
-        # our set of conversions
+        self.getClassesInData()
+        # cars is one of the only categorical sets we really need to map a lot of data in, so if its cars we run
+        # it against our set of conversions
         if isCars:
             for i in range(0,len(self.data)):
                 for j in range(0,len(self.data[0])):
@@ -96,6 +99,17 @@ class DataSet():
         return result
 
     # Utility Functions
+    def getClassesInData(self):
+        for line in self.data:
+            target_class = line[self.target_location]
+            if target_class not in self.classes:
+                self.classes[target_class] = 1
+            else:
+                self.classes[target_class] = self.classes[target_class] + 1
+        ordered = []
+        for key in self.classes:
+            ordered.append(key)
+        self.ordered_classes = ordered
 
     # separate the data from the target class location for use of normalization
     def separateClassFromData(self):

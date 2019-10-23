@@ -2,7 +2,8 @@ from Algorithm import Algorithm
 from Node import Node
 from Layer import Layer
 from DataSet import DataSet
-
+import math
+import numpy
 
 class FeedForwardNetwork(Algorithm):
     inputs = None
@@ -26,6 +27,7 @@ class FeedForwardNetwork(Algorithm):
 
     # set to false for now, but will change later
     def run(self, data_set: DataSet, regression=False):
+        self.data_set = data_set
         data = data_set.separateClassFromData()
         # input values into the input layer
         for line in data:
@@ -40,6 +42,34 @@ class FeedForwardNetwork(Algorithm):
             for i in range(0, len(self.layers)):
                 for j in range(0, len(self.layers[i].nodes)):
                     self.layers[i].nodes[j].run()
+            layer_length = len(self.layers)
+            max_weight = -math.inf # our found max weight
+            max_index = None # our found max index
+            results = [] # the results, localized from the final row
+            # iterate through nodes in the last row
+            for i in range(0, len(self.layers[layer_length-1].nodes)):
+                # get value of single node
+                value = self.layers[layer_length-1].nodes[i]
+                # append value to local result
+                results.append(value)
+                # if greater than current max, assign to variables index, and new weight
+                if value > max_weight:
+                    max_index = i
+                    max_weight = value
+            # our wanted results
+            wanted_results = []
+            # make matrix of what we want, which will be the wanted class being 1, the unwanted being zero
+            # ex, class 2 is what we want and we have 5 classes: [0,0,1,0,0] (this assumes softmax is being used)
+            for i in range(0, len(results)):
+                if max_index is i:
+                    wanted_results.append(1)
+                else:
+                    wanted_results.append(0)
+            # get the distance of what we wanted from what we got
+            distance = numpy.subtract(wanted_results, results)
+            # square it for MSE/Cross Entropy error
+            squared_distance = numpy.power(distance, 2)
+            # TODO: use squared distance for backprop
 
 
     def link_layers(self):
