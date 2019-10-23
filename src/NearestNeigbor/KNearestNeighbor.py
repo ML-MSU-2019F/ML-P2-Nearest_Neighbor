@@ -1,10 +1,10 @@
 import heapq
 import multiprocessing
 import numpy
-from NearestNeigbor.NearestNeighbor import NearestNeighbor
+from Algorithm import Algorithm
 
 
-class KNearestNeighbor(NearestNeighbor):
+class KNearestNeighbor(Algorithm):
     # shared data_set object
     # k nearest neighbors
     k = None
@@ -158,7 +158,7 @@ class KNearestNeighbor(NearestNeighbor):
         return abs(actual - predicted)
 
     # classify based on closest classes, and actual class
-    def classify(self,actual_class,closest):
+    def classify(self, actual_class, closest):
         occurrence_dict = {}
         # Add up class occurrences
         for i in range(0, len(closest)):

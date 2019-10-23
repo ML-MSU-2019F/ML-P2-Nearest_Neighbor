@@ -56,6 +56,10 @@ class FeedForwardNetwork(Algorithm):
                 if value > max_weight:
                     max_index = i
                     max_weight = value
+            # turn results into soft_max
+            exp_results = numpy.exp(results)
+            soft_max_sum = numpy.sum(results)
+            results = exp_results/soft_max_sum
             # our wanted results
             wanted_results = []
             # make matrix of what we want, which will be the wanted class being 1, the unwanted being zero
@@ -69,6 +73,13 @@ class FeedForwardNetwork(Algorithm):
             distance = numpy.subtract(wanted_results, results)
             # square it for MSE/Cross Entropy error
             squared_distance = numpy.power(distance, 2)
+            # manually set distance in output layer
+            for i in range(0, len(self.layers[layer_length - 1].nodes)):
+                self.layers[layer_length - 1].nodes[i].distance = squared_distance[i]
+            # backprop using distance in output layer
+            for i in range(len(self.layers)-1, 0, -1):
+                for j in range(len(self.layers[i].nodes)-1, 0, -1):
+                    self.layers[i].nodes[j].backprop()
             # TODO: use squared distance for backprop
 
 

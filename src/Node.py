@@ -4,16 +4,19 @@ import math
 
 
 class Node:
-    weights = []
-    layer = None
-    index = None
-    output = None
-    override_input = None
+
 
     def __init__(self, index, bias=None, learning_rate=0.5):
         self.bias = bias
         self.index = index
         self.learning_rate = learning_rate
+        self.distance = None
+        self.weights = []
+        self.layer = None
+        self.index = None
+        self.output = None
+        self.override_input = None
+        self.backprop_value = None
 
     def overrideInput(self, value):
         self.override_input = value
@@ -61,11 +64,17 @@ class Node:
             activated = self.sigmoid(total)
             self.output = activated
 
-    # simple backprop, with MSE doesn't seem like delta can ever be positive? could be a problem
-    def backprop(self, error):
-        delta = numpy.dot(self.weights, self.learning_rate * error)
-        updated_weights = numpy.subtract(self.weights, delta)
-        self.weights = updated_weights
+    def backprop(self):
+        new_weights = []
+        for i in range(0, len(self.weights)):
+            # get node associated with weight
+            output = self.layer.next_layer.nodes[i].backprop_value
+            distance = self.layer.next_layer.nodes[i].distance
+            score = distance * (output * (1-output))
+            delta = score * self.learning_rate
+            weight = self.weights[i] - delta
+            new_weights.append(weight)
+        self.weights = numpy.array(new_weights)
 
     def sigmoid(self, x):
         return 1.0/(1.0 + numpy.exp(-x))

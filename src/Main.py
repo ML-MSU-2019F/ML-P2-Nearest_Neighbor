@@ -1,6 +1,6 @@
 from DataSet import DataSet
 from NearestNeigbor.KNearestNeighbor import KNearestNeighbor
-from NearestNeigbor.PAMClusterNew import PAMClusterNew
+from NearestNeigbor.PAM import PAMClusterNew
 from NearestNeigbor.KMeans import KMeans
 from FeedForwardNetwork import FeedForwardNetwork
 import math

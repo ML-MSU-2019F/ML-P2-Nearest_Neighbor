@@ -80,11 +80,3 @@ class KMeans(KNearestNeighbor):
         # see how good it was
         # check the accuracy of the centroids vs the original data
         print(self.checkAccuracyAgainstSet(list_centroids, self.data, 1))
-
-    # get the index of the centroid that was chosen by getting the closest nearest neighbor
-    def getChosenCentroid(self, centroids, chosen):
-        chosen = numpy.array(chosen)
-        centroids = numpy.array(centroids)
-        for i in range(0,len(centroids)):
-            if numpy.array_equal(chosen, centroids[i]):
-                return i
