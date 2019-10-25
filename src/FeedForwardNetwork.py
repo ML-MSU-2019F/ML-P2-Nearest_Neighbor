@@ -5,6 +5,7 @@ from DataSet import DataSet
 import math
 import numpy
 
+
 class FeedForwardNetwork(Algorithm):
     inputs = None
     hidden_layers = None

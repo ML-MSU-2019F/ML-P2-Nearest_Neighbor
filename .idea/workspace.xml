@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fdff9927-8acb-45b4-b1e1-6001dab851f7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FeedForwardNetwork.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/FeedForwardNetwork.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Node.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Node.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -113,7 +113,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/FeedForwardNetwork.py</url>
-          <line>24</line>
+          <line>25</line>
           <option name="timeStamp" value="151" />
         </line-breakpoint>
       </breakpoints>

@@ -70,7 +70,7 @@ class Node:
             # get node associated with weight
             output = self.layer.next_layer.nodes[i].backprop_value
             distance = self.layer.next_layer.nodes[i].distance
-            score = distance * (output * (1-output))
+            score = distance * self.sigmoidDerived(output)
             delta = score * self.learning_rate
             weight = self.weights[i] - delta
             new_weights.append(weight)
@@ -78,3 +78,6 @@ class Node:
 
     def sigmoid(self, x):
         return 1.0/(1.0 + numpy.exp(-x))
+
+    def sigmoidDerived(self,x):
+        return (x * (1-x))
