@@ -9,9 +9,13 @@ class Node:
     def __init__(self, index, bias=None, learning_rate=0.5):
         self.bias = bias
         self.index = index
+        self.error = None
         self.learning_rate = learning_rate
         self.distance = None
+        self.momentum = 0
         self.weights = []
+        self.errors = []
+        self.derived = []
         self.layer = None
         self.index = None
         self.output = None
@@ -66,14 +70,28 @@ class Node:
 
     def backprop(self):
         new_weights = []
-        for i in range(0, len(self.weights)):
-            # get node associated with weight
-            output = self.layer.next_layer.nodes[i].backprop_value
-            distance = self.layer.next_layer.nodes[i].distance
-            score = distance * self.sigmoidDerived(output)
-            delta = score * self.learning_rate
-            weight = self.weights[i] - delta
-            new_weights.append(weight)
+        errors = []
+        derived = []
+        next_layer = self.layer.next_layer
+        # different handling if we dont have to take the sum of error influence
+        if next_layer.is_output_layer:
+            for i in range(0, len(self.weights)):
+                # output is node associated with weights backprop value
+                next_layer_node = next_layer.nodes[i]
+                # target - out
+                error = next_layer_node.error
+                errors.append(error)
+                # output of next node
+                next_output = next_layer_node.output
+                # derived activation
+                derive_activation = self.sigmoidDerived(next_output)
+                derived.append(derive_activation)
+                delta = error * derive_activation * self.output * self.learning_rate
+                weight = self.weights[i] - delta
+                new_weights.append(weight)
+
+        # momentum, new weights - last weights
+        self.momentum = numpy.subtract(new_weights, self.weights)
         self.weights = numpy.array(new_weights)
 
     def sigmoid(self, x):

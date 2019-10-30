@@ -31,7 +31,8 @@ class FeedForwardNetwork(Algorithm):
         self.data_set = data_set
         data = data_set.separateClassFromData()
         # input values into the input layer
-        for line in data:
+        for index in range(0,len(data)):
+            line = data[index]
             if len(line) != self.inputs:
                 print("Error, we need to have as many inputs as features")
                 print("We have {} features, but only {} layers".format(len(line), self.inputs))
@@ -61,22 +62,28 @@ class FeedForwardNetwork(Algorithm):
             exp_results = numpy.exp(results)
             soft_max_sum = numpy.sum(results)
             results = exp_results/soft_max_sum
+            # set last layer results to be the softmax sum
+            for i in range(0, len(results)):
+                self.layers[layer_length - 1].nodes[i].output = results[i]
             # our wanted results
             wanted_results = []
+            actual_class = self.data_set.data[index][self.data_set.target_location]
+            output_layer_index = self.data_set.ordered_classes[actual_class]
             # make matrix of what we want, which will be the wanted class being 1, the unwanted being zero
             # ex, class 2 is what we want and we have 5 classes: [0,0,1,0,0] (this assumes softmax is being used)
             for i in range(0, len(results)):
-                if max_index is i:
+                if output_layer_index is i:
                     wanted_results.append(1)
                 else:
                     wanted_results.append(0)
             # get the distance of what we wanted from what we got
             distance = numpy.subtract(wanted_results, results)
             # square it for MSE/Cross Entropy error
-            squared_distance = numpy.power(distance, 2)
-            # manually set distance in output layer
+            squared_distance = 0.5 * numpy.power(distance, 2)
+
+            # manually set output in output layer to the derived MSE distance
             for i in range(0, len(self.layers[layer_length - 1].nodes)):
-                self.layers[layer_length - 1].nodes[i].distance = squared_distance[i]
+                self.layers[layer_length - 1].nodes[i].error = distance[i]
             # backprop using distance in output layer
             for i in range(len(self.layers)-1, 0, -1):
                 for j in range(len(self.layers[i].nodes)-1, 0, -1):
