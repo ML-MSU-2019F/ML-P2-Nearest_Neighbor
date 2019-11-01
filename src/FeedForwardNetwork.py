@@ -30,65 +30,68 @@ class FeedForwardNetwork(Algorithm):
     def run(self, data_set: DataSet, regression=False):
         self.data_set = data_set
         data = data_set.separateClassFromData()
+        iter = 0
+        while iter != 100:
+            iter+=1
         # input values into the input layer
-        for index in range(0,len(data)):
-            line = data[index]
-            if len(line) != self.inputs:
-                print("Error, we need to have as many inputs as features")
-                print("We have {} features, but only {} layers".format(len(line), self.inputs))
-                exit(1)
-            for i in range(0, len(line)):
-                # input values into first layer
-                self.layers[0].nodes[i].overrideInput(line[i])
-            # go though each layer, running based on set input
-            for i in range(0, len(self.layers)):
-                for j in range(0, len(self.layers[i].nodes)):
-                    self.layers[i].nodes[j].run()
-            layer_length = len(self.layers)
-            max_weight = -math.inf  # our found max weight
-            max_index = None  # our found max index
-            results = []  # the results, localized from the final row
-            # iterate through nodes in the last row
-            for i in range(0, len(self.layers[layer_length-1].nodes)):
-                # get value of single node
-                value = self.layers[layer_length-1].nodes[i].output
-                # append value to local result
-                results.append(value)
-                # if greater than current max, assign to variables index, and new weight
-                if value > max_weight:
-                    max_index = i
-                    max_weight = value
-            # turn results into soft_max
-            exp_results = numpy.exp(results)
-            soft_max_sum = numpy.sum(results)
-            results = exp_results/soft_max_sum
-            # set last layer results to be the softmax sum
-            for i in range(0, len(results)):
-                self.layers[layer_length - 1].nodes[i].output = results[i]
-            # our wanted results
-            wanted_results = []
-            actual_class = self.data_set.data[index][self.data_set.target_location]
-            output_layer_index = self.data_set.ordered_classes[actual_class]
-            # make matrix of what we want, which will be the wanted class being 1, the unwanted being zero
-            # ex, class 2 is what we want and we have 5 classes: [0,0,1,0,0] (this assumes softmax is being used)
-            for i in range(0, len(results)):
-                if output_layer_index is i:
-                    wanted_results.append(1)
-                else:
-                    wanted_results.append(0)
-            # get the distance of what we wanted from what we got
-            distance = numpy.subtract(wanted_results, results)
-            # square it for MSE/Cross Entropy error
-            squared_distance = 0.5 * numpy.power(distance, 2)
+            for index in range(0,len(data)):
+                line = data[index]
+                if len(line) != self.inputs:
+                    print("Error, we need to have as many inputs as features")
+                    print("We have {} features, but only {} layers".format(len(line), self.inputs))
+                    exit(1)
+                for i in range(0, len(line)):
+                    # input values into first layer
+                    self.layers[0].nodes[i].overrideInput(line[i])
+                # go though each layer, running based on set input
+                for i in range(0, len(self.layers)):
+                    for j in range(0, len(self.layers[i].nodes)):
+                        self.layers[i].nodes[j].run()
+                layer_length = len(self.layers)
+                max_weight = -math.inf  # our found max weight
+                max_index = None  # our found max index
+                results = []  # the results, localized from the final row
+                # iterate through nodes in the last row
+                for i in range(0, len(self.layers[layer_length-1].nodes)):
+                    # get value of single node
+                    value = self.layers[layer_length-1].nodes[i].output
+                    # append value to local result
+                    results.append(value)
+                    # if greater than current max, assign to variables index, and new weight
+                    if value > max_weight:
+                        max_index = i
+                        max_weight = value
+                # turn results into soft_max
+                exp_results = numpy.exp(results)
+                soft_max_sum = numpy.sum(exp_results)
+                results = exp_results/soft_max_sum
+                # set last layer results to be the softmax sum
+                for i in range(0, len(results)):
+                    self.layers[layer_length - 1].nodes[i].output = results[i]
+                # our wanted results
+                wanted_results = []
+                actual_class = self.data_set.data[index][self.data_set.target_location]
+                output_layer_index = self.data_set.ordered_classes[actual_class]
+                # make matrix of what we want, which will be the wanted class being 1, the unwanted being zero
+                # ex, class 2 is what we want and we have 5 classes: [0,0,1,0,0] (this assumes softmax is being used)
+                for i in range(0, len(results)):
+                    if output_layer_index is i:
+                        wanted_results.append(1)
+                    else:
+                        wanted_results.append(0)
+                # get the distance of what we wanted from what we got
+                distance = numpy.subtract(results, wanted_results)
+                # square it for MSE/Cross Entropy error
+                squared_distance = 0.5 * numpy.power(distance, 2)
 
-            # manually set output in output layer to the derived MSE distance
-            for i in range(0, len(self.layers[layer_length - 1].nodes)):
-                self.layers[layer_length - 1].nodes[i].error = distance[i]
-            # backprop using distance in output layer
-            for i in range(len(self.layers)-1, 0, -1):
-                for j in range(len(self.layers[i].nodes)-1, 0, -1):
-                    self.layers[i].nodes[j].backprop()
-            # TODO: use squared distance for backprop
+                # manually set output in output layer to the derived MSE distance
+                for i in range(0, len(self.layers[layer_length - 1].nodes)):
+                    self.layers[layer_length - 1].nodes[i].error = distance[i]
+                # backprop using distance in output layer
+                for i in range(len(self.layers)-2, -1, -1):
+                    for j in range(len(self.layers[i].nodes)-1, 0, -1):
+                        self.layers[i].nodes[j].backprop()
+        print("last")
 
 
     def link_layers(self):
@@ -115,7 +118,7 @@ class FeedForwardNetwork(Algorithm):
     def constructInputLayer(self):
         layer = Layer(len(self.layers))
         for i in range(0, self.inputs):
-            node_i = Node(i)
+            node_i = Node(index=i)
             node_i.setLayer(layer)
             layer.addNode(node_i)
         layer.setInputLayer(True)
@@ -125,7 +128,7 @@ class FeedForwardNetwork(Algorithm):
     def constructOutputLayer(self):
         layer = Layer(len(self.layers))
         for i in range(0, self.outputs):
-            node_i = Node(i)
+            node_i = Node(index=i)
             node_i.setLayer(layer)
             layer.addNode(node_i)
         layer.setOutputLayer(True)
@@ -141,7 +144,7 @@ class FeedForwardNetwork(Algorithm):
         for i in range(0, self.hidden_layers):
             layer = Layer(len(self.layers))
             for j in range(0, self.nodes_by_layers[i]):
-                node_j = Node(j)
+                node_j = Node(index=j)
                 node_j.setLayer(layer)
                 layer.addNode(node_j)
             self.layers.append(layer)

@@ -107,9 +107,10 @@ class DataSet():
             else:
                 self.classes[target_class] = self.classes[target_class] + 1
         ordered = {}
-        for index in range(0,len(self.classes)):
-            ord_class = self.classes[index]
-            ordered[ord_class] = index
+        index = 0
+        for key in self.classes:
+            ordered[key] = index
+            index+=1
         self.ordered_classes = ordered
 
     # separate the data from the target class location for use of normalization

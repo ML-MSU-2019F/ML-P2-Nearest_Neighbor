@@ -5,7 +5,6 @@ import math
 
 class Node:
 
-
     def __init__(self, index, bias=None, learning_rate=0.5):
         self.bias = bias
         self.index = index
@@ -17,7 +16,6 @@ class Node:
         self.errors = []
         self.derived = []
         self.layer = None
-        self.index = None
         self.output = None
         self.override_input = None
         self.backprop_value = None
@@ -63,7 +61,7 @@ class Node:
             weights, outputs = self.getPreviousLayerWeightsAndOutputs()
             weights = numpy.array(weights)
             outputs = numpy.array(outputs)
-            w_x = numpy.multiply(weights, outputs)
+            w_x = numpy.multiply(outputs, weights)
             total = numpy.sum(w_x)
             activated = self.sigmoid(total)
             self.output = activated
@@ -79,14 +77,34 @@ class Node:
                 # output is node associated with weights backprop value
                 next_layer_node = next_layer.nodes[i]
                 # target - out
-                error = next_layer_node.error
-                errors.append(error)
+                next_error = next_layer_node.error
                 # output of next node
                 next_output = next_layer_node.output
                 # derived activation
                 derive_activation = self.sigmoidDerived(next_output)
                 derived.append(derive_activation)
-                delta = error * derive_activation * self.output * self.learning_rate
+                error = next_error * derive_activation * self.output
+                if isinstance(self.momentum, int):
+                    delta = (error*self.learning_rate) + self.momentum
+                else:
+                    delta = (error * self.learning_rate) + self.momentum[i]
+                errors.append(error)
+                weight = self.weights[i] - delta
+                new_weights.append(weight)
+        else:
+            for i in range(0, len(self.weights)):
+                next_layer_node = next_layer.nodes[i]
+                error_by_weight = numpy.multiply(next_layer_node.errors, next_layer_node.weights);
+                error_sum = numpy.sum(error_by_weight)
+                next_output = next_layer_node.output
+                derive_activation = self.sigmoidDerived(next_output)
+                derived.append(derive_activation)
+                error = error_sum * derive_activation * self.weights[i]
+                if isinstance(self.momentum, int):
+                    delta = (error * self.learning_rate) + self.momentum
+                else:
+                    delta = (error * self.learning_rate) + self.momentum[i]
+                errors.append(error)
                 weight = self.weights[i] - delta
                 new_weights.append(weight)
 
