@@ -94,12 +94,13 @@ class Node:
         else:
             for i in range(0, len(self.weights)):
                 next_layer_node = next_layer.nodes[i]
-                error_by_weight = numpy.multiply(next_layer_node.errors, next_layer_node.weights);
+                error_by_weight = numpy.multiply(next_layer_node.errors, next_layer_node.weights)
                 error_sum = numpy.sum(error_by_weight)
                 next_output = next_layer_node.output
                 derive_activation = self.sigmoidDerived(next_output)
                 derived.append(derive_activation)
                 error = error_sum * derive_activation * self.weights[i]
+                delta = None
                 if isinstance(self.momentum, int):
                     delta = (error * self.learning_rate) + self.momentum
                 else:
@@ -107,7 +108,7 @@ class Node:
                 errors.append(error)
                 weight = self.weights[i] - delta
                 new_weights.append(weight)
-
+        self.errors = errors
         # momentum, new weights - last weights
         self.momentum = numpy.subtract(new_weights, self.weights)
         self.weights = numpy.array(new_weights)

@@ -80,7 +80,7 @@ class FeedForwardNetwork(Algorithm):
                     else:
                         wanted_results.append(0)
                 # get the distance of what we wanted from what we got
-                distance = numpy.subtract(results, wanted_results)
+                distance = numpy.subtract(wanted_results, results)
                 # square it for MSE/Cross Entropy error
                 squared_distance = 0.5 * numpy.power(distance, 2)
 
@@ -89,7 +89,7 @@ class FeedForwardNetwork(Algorithm):
                     self.layers[layer_length - 1].nodes[i].error = distance[i]
                 # backprop using distance in output layer
                 for i in range(len(self.layers)-2, -1, -1):
-                    for j in range(len(self.layers[i].nodes)-1, 0, -1):
+                    for j in range(len(self.layers[i].nodes)-1, -1, -1):
                         self.layers[i].nodes[j].backprop()
         print("last")
 
