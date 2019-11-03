@@ -33,7 +33,7 @@ def main():
 
     segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
     # 19 features, testing 1 hidden layer, with 10 nodes, 7 class outputs
-    ffn = FeedForwardNetwork(19, 2, [6,6], 7)
+    ffn = FeedForwardNetwork(19, 1, [12], 7)
     segmentation.runAlgorithm(ffn)
 
     #

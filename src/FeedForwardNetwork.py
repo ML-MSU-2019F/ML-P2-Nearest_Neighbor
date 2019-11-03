@@ -30,11 +30,13 @@ class FeedForwardNetwork(Algorithm):
     def run(self, data_set: DataSet, regression=False):
         self.data_set = data_set
         data = data_set.separateClassFromData()
+        data_set.makeRandomMap(data, 1)
+        data = data_set.getRandomMap(0)
         iter = 0
         while iter != 100:
             iter+=1
         # input values into the input layer
-            for index in range(0,len(data)):
+            for index in range(0, len(data)):
                 line = data[index]
                 if len(line) != self.inputs:
                     print("Error, we need to have as many inputs as features")
@@ -64,7 +66,7 @@ class FeedForwardNetwork(Algorithm):
                 # turn results into soft_max
                 exp_results = numpy.exp(results)
                 soft_max_sum = numpy.sum(exp_results)
-                results = exp_results/soft_max_sum
+                # results = exp_results/soft_max_sum
                 # set last layer results to be the softmax sum
                 for i in range(0, len(results)):
                     self.layers[layer_length - 1].nodes[i].output = results[i]
@@ -80,7 +82,7 @@ class FeedForwardNetwork(Algorithm):
                     else:
                         wanted_results.append(0)
                 # get the distance of what we wanted from what we got
-                distance = numpy.subtract(wanted_results, results)
+                distance = numpy.subtract(results, wanted_results)
                 # square it for MSE/Cross Entropy error
                 squared_distance = 0.5 * numpy.power(distance, 2)
 
@@ -113,7 +115,7 @@ class FeedForwardNetwork(Algorithm):
         for i in range(0, len(self.layers)):
             # initialize weights on all nodes
             for j in range(0, len(self.layers[i].nodes)):
-                self.layers[i].nodes[j].initWeights(-0.3, 0.3)
+                self.layers[i].nodes[j].initWeights(-0.5, 0.5)
 
     def constructInputLayer(self):
         layer = Layer(len(self.layers))

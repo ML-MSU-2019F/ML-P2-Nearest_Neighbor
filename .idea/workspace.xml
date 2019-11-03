@@ -115,7 +115,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/FeedForwardNetwork.py</url>
-          <line>93</line>
+          <line>95</line>
           <option name="timeStamp" value="166" />
         </line-breakpoint>
       </breakpoints>
