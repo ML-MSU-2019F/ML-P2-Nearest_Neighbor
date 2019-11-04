@@ -31,11 +31,11 @@ def main():
     # segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
     # runClassificationAlgorithms(segmentation)
     cars = DataSet("../data/car.data", target_location=6, isCars=True, regression=False);
-    ffn = FeedForwardNetwork(6, 0, [], 4)
+    ffn = FeedForwardNetwork(6, 1, [20], 4)
     cars.runAlgorithm(ffn)
     segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
     # 19 features, testing 1 hidden layer, with 10 nodes, 7 class outputs
-    ffn = FeedForwardNetwork(19, 0, [], 7)
+    ffn = FeedForwardNetwork(19, 1, [25], 7)
     segmentation.runAlgorithm(ffn)
 
     #
