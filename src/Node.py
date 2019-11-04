@@ -5,7 +5,7 @@ import math
 
 class Node:
 
-    def __init__(self, index, bias=None, learning_rate=0.5):
+    def __init__(self, index, bias=None, learning_rate=1):
         self.bias = bias
         self.index = index
         self.error = None
@@ -13,10 +13,8 @@ class Node:
         self.distance = None
         self.momentum = 0
         self.derived_times_errors = []
-        self.next_outputs = []
         self.weights = []
         self.errors = []
-        self.derived = []
         self.layer = None
         self.output = None
         self.override_input = None
@@ -71,9 +69,7 @@ class Node:
     def backprop(self):
         new_weights = []
         errors = []
-        derived = []
         derived_times_errors = []
-        next_outputs = []
         next_layer = self.layer.next_layer
         # different handling if we dont have to take the sum of error influence
         if next_layer.is_output_layer:
@@ -84,18 +80,17 @@ class Node:
                 next_error = next_layer_node.error
                 # output of next node
                 next_output = next_layer_node.output
-                next_outputs.append(next_output)
                 # derived activation
                 derive_activation = self.sigmoidDerived(next_output)
-                derived.append(derive_activation)
-                derived_time_error = next_error * derive_activation
-                derived_times_errors.append(derived_time_error)
+                derived_times_error = next_error * derive_activation
+                derived_times_errors.append(derived_times_error)
                 # error = next_error * derive_activation * next_output
-                error = derived_time_error * self.output
+                error = derived_times_error * self.output
+                delta = None
                 if isinstance(self.momentum, int):
-                    delta = (error*self.learning_rate) + self.momentum
+                    delta = (error*self.learning_rate)# + self.momentum
                 else:
-                    delta = (error * self.learning_rate) + self.momentum[i]
+                    delta = (error * self.learning_rate)# + self.momentum[i]
                 errors.append(error)
                 weight = self.weights[i] - delta
                 new_weights.append(weight)
@@ -106,24 +101,20 @@ class Node:
                 error_by_weight = numpy.multiply(next_d_and_error, next_layer_node.weights)
                 error_sum = numpy.sum(error_by_weight)
                 next_output = next_layer_node.output
-                next_outputs.append(next_output)
                 derive_activation = self.sigmoidDerived(next_output)
-                derived.append(derive_activation)
                 derived_times_error = error_sum * derive_activation
                 derived_times_errors.append(derived_times_error)
                 error = derived_times_error * self.output
                 delta = None
                 if isinstance(self.momentum, int):
-                    delta = (error * self.learning_rate) + self.momentum
+                    delta = (error * self.learning_rate) # + self.momentum
                 else:
-                    delta = (error * self.learning_rate) + self.momentum[i]
+                    delta = (error * self.learning_rate) # + self.momentum[i]
                 errors.append(error)
                 weight = self.weights[i] - delta
                 new_weights.append(weight)
-        self.derived_times_errors = derived_times_errors
-        self.derived = derived
-        self.next_outputs = next_outputs
-        self.errors = errors
+        self.derived_times_errors = numpy.array(derived_times_errors)
+        self.errors = numpy.array(errors)
         # momentum, new weights - last weights
         self.momentum = numpy.subtract(new_weights, self.weights)
         self.weights = numpy.array(new_weights)

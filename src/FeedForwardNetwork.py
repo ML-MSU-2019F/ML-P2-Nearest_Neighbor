@@ -7,13 +7,9 @@ import numpy
 
 
 class FeedForwardNetwork(Algorithm):
-    inputs = None
-    hidden_layers = None
-    nodes_by_layers = []
-    layers = []
-    outputs = None
 
     def __init__(self, inputs: int, hidden_layers: int, nodes_by_layers: list, outputs: int):
+        self.layers = []
         self.inputs = inputs
         self.hidden_layers = hidden_layers
         self.nodes_by_layers = nodes_by_layers
@@ -29,11 +25,12 @@ class FeedForwardNetwork(Algorithm):
     # set to false for now, but will change later
     def run(self, data_set: DataSet, regression=False):
         self.data_set = data_set
-        data = data_set.separateClassFromData()
-        data_set.makeRandomMap(data, 1)
-        data = data_set.getRandomMap(0)
+        data_set.makeRandomMap(data_set.data, 1)
+        rand_data = data_set.getRandomMap(0)
+        data = data_set.separateClassFromData(data=rand_data)
         iter = 0
-        while iter != 100:
+        # training
+        while iter != 20:
             iter+=1
         # input values into the input layer
             for index in range(0, len(data)):
@@ -72,8 +69,8 @@ class FeedForwardNetwork(Algorithm):
                     self.layers[layer_length - 1].nodes[i].output = results[i]
                 # our wanted results
                 wanted_results = []
-                actual_class = self.data_set.data[index][self.data_set.target_location]
-                output_layer_index = self.data_set.ordered_classes[actual_class]
+                actual_class = rand_data[index][self.data_set.target_location]
+                output_layer_index = data_set.ordered_classes[actual_class]
                 # make matrix of what we want, which will be the wanted class being 1, the unwanted being zero
                 # ex, class 2 is what we want and we have 5 classes: [0,0,1,0,0] (this assumes softmax is being used)
                 for i in range(0, len(results)):
@@ -93,6 +90,9 @@ class FeedForwardNetwork(Algorithm):
                 for i in range(len(self.layers)-2, -1, -1):
                     for j in range(len(self.layers[i].nodes)-1, -1, -1):
                         self.layers[i].nodes[j].backprop()
+                print("error")
+                print(numpy.sum(squared_distance))
+
         print("last")
 
 

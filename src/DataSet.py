@@ -114,13 +114,15 @@ class DataSet():
         self.ordered_classes = ordered
 
     # separate the data from the target class location for use of normalization
-    def separateClassFromData(self):
+    def separateClassFromData(self, data = None):
+        if data is None:
+            data = self.data
         result = []
-        for i in range(0,len(self.data)):
+        for i in range(0, len(data)):
             result.append([])
-            for j in range(0,len(self.data[i])):
+            for j in range(0, len(data[0])):
                 if j is self.target_location:continue
-                result[i].append(float(self.data[i][j]))
+                result[i].append(float(data[i][j]))
         return result
 
     #rejoin the data and the class, also for use of normalization
