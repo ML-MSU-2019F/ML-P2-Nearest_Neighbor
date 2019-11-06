@@ -12,12 +12,15 @@ plt.close('all')
 
 class FeedForwardNetwork(Algorithm):
 
-    def __init__(self, inputs: int, hidden_layers: int, nodes_by_layers: list, outputs: int):
+    def __init__(self, inputs: int, hidden_layers: int, nodes_by_layers: list, outputs: int, learning_rate, momentum_constant):
         self.layers = []
         self.inputs = inputs
         self.hidden_layers = hidden_layers
         self.nodes_by_layers = nodes_by_layers
         self.outputs = outputs
+        self.learning_rate = learning_rate
+        self.momentum_constant = momentum_constant
+        self.regression = False
         print("Constructing Neural Net")
         self.constructInputLayer()
         self.constructHiddenLayers()
@@ -29,12 +32,12 @@ class FeedForwardNetwork(Algorithm):
     # set to false for now, but will change later
     def run(self, data_set: DataSet, regression=False):
         self.data_set = data_set
+        self.regression = regression
         data_set.makeRandomMap(data_set.data, 10)
         test_set = data_set.getRandomMap(0)
         data = data_set.getAllRandomExcept(0)
-        if not self.data_set.regression:
+        if not self.regression:
             headless_data = data_set.separateClassFromData(data=data)
-
             iter = 0
             epoch_error = []
             test_set_errors = []
@@ -55,18 +58,19 @@ class FeedForwardNetwork(Algorithm):
                     # square it for MSE/Cross Entropy error
                     squared_distance = 0.5 * numpy.power(distance, 2)
                     epoch_error.append(numpy.sum(squared_distance))
-                    self.runBackprop(distance)
-                test_set_errors.append(self.checkAccuracyAgainstSet(test_set, self.data_set.regression))
+                    self.runBackprop(-distance)
+                test_set_errors.append(self.checkAccuracyAgainstSet(test_set, self.regression))
         else:
             iter = 0
+            headless_data = data_set.separateClassFromData(data=data)
             epoch_error = []
             test_set_errors = []
             # training
-            while iter != 20:
+            while iter != 1000:
                 iter += 1
                 # input values into the input layer
-                for index in range(0, len(data)):
-                    line = data[index]
+                for index in range(0, len(headless_data)):
+                    line = headless_data[index]
                     if len(line) != self.inputs:
                         print("Error, we need to have as many inputs as features")
                         print("We have {} features, but only {} layers".format(len(line), self.inputs))
@@ -79,9 +83,12 @@ class FeedForwardNetwork(Algorithm):
                     squared_distance = numpy.power(distance, 2)
                     epoch_error.append(numpy.sum(squared_distance))
                     self.runBackprop([-distance])
-                test_set_errors.append(self.checkAccuracyAgainstSet(test_set, self.data_set.regression))
-        ts = pandas.Series(test_set_errors)
+                test_set_errors.append(self.checkAccuracyAgainstSet(test_set, self.regression))
+        ts = pandas.Series(epoch_error)
         ts.plot()
+        plt.show()
+        tse = pandas.Series(test_set_errors)
+        tse.plot()
         plt.show()
 
     def getDistanceFromWantedResult(self, results, actual_class):
@@ -95,7 +102,7 @@ class FeedForwardNetwork(Algorithm):
             else:
                 wanted_results.append(0)
         # get the distance of what we wanted from what we got
-        distance = numpy.subtract(results, wanted_results)
+        distance = numpy.subtract(wanted_results, results)
         return distance
 
     def checkAccuracyAgainstSet(self, test_set, regression):
@@ -108,11 +115,12 @@ class FeedForwardNetwork(Algorithm):
                 class_actual = test_set[index][self.data_set.target_location]
                 if max_index == self.data_set.ordered_classes[class_actual]:
                     accuracy += 1
-            return accuracy/len(test_set)
+            return accuracy/len(headless)
         else:
             mse_sum = 0
-            for index in range(0, len(test_set)):
-                self.runForward(test_set[index])
+            headless = self.data_set.separateClassFromData(data=test_set)
+            for index in range(0, len(headless)):
+                self.runForward(headless[index])
                 output = self.layers[len(self.layers) - 1].nodes[0].output
                 actual = test_set[index][self.data_set.target_location]
                 mse = numpy.power(actual-output, 2)
@@ -158,7 +166,7 @@ class FeedForwardNetwork(Algorithm):
         # turn results into soft_max
         exp_results = numpy.exp(results)
         soft_max_sum = numpy.sum(exp_results)
-        results = exp_results/soft_max_sum
+        # results = exp_results/soft_max_sum
         # set last layer results to be the softmax sum
         return results, max_value, max_index
 
@@ -186,7 +194,8 @@ class FeedForwardNetwork(Algorithm):
     def constructInputLayer(self):
         layer = Layer(len(self.layers))
         for i in range(0, self.inputs):
-            node_i = Node(index=i)
+            node_i = Node(index=i, learning_rate=self.learning_rate, momentum_constant=self.momentum_constant)
+            node_i.setTopNetwork(self)
             node_i.setLayer(layer)
             layer.addNode(node_i)
         layer.setInputLayer(True)
@@ -196,7 +205,8 @@ class FeedForwardNetwork(Algorithm):
     def constructOutputLayer(self):
         layer = Layer(len(self.layers))
         for i in range(0, self.outputs):
-            node_i = Node(index=i)
+            node_i = Node(index=i, learning_rate=self.learning_rate, momentum_constant=self.momentum_constant)
+            node_i.setTopNetwork(self)
             node_i.setLayer(layer)
             layer.addNode(node_i)
         layer.setOutputLayer(True)
@@ -212,7 +222,8 @@ class FeedForwardNetwork(Algorithm):
         for i in range(0, self.hidden_layers):
             layer = Layer(len(self.layers))
             for j in range(0, self.nodes_by_layers[i]):
-                node_j = Node(index=j)
+                node_j = Node(index=j, learning_rate=self.learning_rate, momentum_constant=self.momentum_constant)
+                node_j.setTopNetwork(self)
                 node_j.setLayer(layer)
                 layer.addNode(node_j)
             self.layers.append(layer)

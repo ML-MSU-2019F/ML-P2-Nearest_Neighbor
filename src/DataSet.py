@@ -158,7 +158,7 @@ class DataSet():
         return min(distance1, distance2)
 
     # remove collumns specified by argument from self.data
-    def removeColumns(self,columns):
+    def removeColumns(self, columns):
         map = {}
         for i in columns:
             map[i] = True

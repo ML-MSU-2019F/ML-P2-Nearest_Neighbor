@@ -29,16 +29,16 @@ def main():
     # segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
     # runClassificationAlgorithms(segmentation)
     # cars = DataSet("../data/car.data", target_location=6, isCars=True, regression=False);
-    # ffn = FeedForwardNetwork(6, 1, [20], 4)
+    # ffn = FeedForwardNetwork(6, 0, [], 4, learning_rate=.00001, momentum_constant=0)
     # cars.runAlgorithm(ffn)
     segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
     # 19 features, testing 1 hidden layer, with 10 nodes, 7 class outputs
-    ffn = FeedForwardNetwork(19, 0, [], 7)
+    ffn = FeedForwardNetwork(19, 0, [], 7, learning_rate=.01, momentum_constant=0)
     segmentation.runAlgorithm(ffn)
 
     # print("=====Machine Performance Regression (relative performance)=====")
     # machine = DataSet("../data/machine.data", target_location=7, ignore=[0, 1], regression=True)
-    # ffn = FeedForwardNetwork(8, 0, [], 1)
+    # ffn = FeedForwardNetwork(7, 0, [], 1, learning_rate=0.1, momentum_constant=.1)
     # machine.runAlgorithm(ffn)
     # runRegressionAlgorithms(machine)
     #

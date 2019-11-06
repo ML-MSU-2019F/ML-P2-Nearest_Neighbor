@@ -116,18 +116,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/FeedForwardNetwork.py</url>
-          <line>118</line>
+          <line>126</line>
           <option name="timeStamp" value="187" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/FeedForwardNetwork.py</url>
-          <line>78</line>
-          <option name="timeStamp" value="190" />
+          <line>86</line>
+          <option name="timeStamp" value="194" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/FeedForwardNetwork.py</url>
-          <line>56</line>
-          <option name="timeStamp" value="191" />
+          <line>82</line>
+          <option name="timeStamp" value="195" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/FeedForwardNetwork.py</url>
+          <line>166</line>
+          <option name="timeStamp" value="196" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
