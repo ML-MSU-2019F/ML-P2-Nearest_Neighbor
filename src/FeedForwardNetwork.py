@@ -42,8 +42,9 @@ class FeedForwardNetwork(Algorithm):
             epoch_error = []
             test_set_errors = []
             # training
-            while iter != 50:
+            while iter != 100:
                 iter+=1
+                print("Epoch: {}".format(iter))
             # input values into the input layer
                 for index in range(0, len(headless_data)):
                     line = headless_data[index]
@@ -57,7 +58,7 @@ class FeedForwardNetwork(Algorithm):
                     distance = self.getDistanceFromWantedResult(results, actual_class)
                     # square it for MSE/Cross Entropy error
                     squared_distance = 0.5 * numpy.power(distance, 2)
-                    epoch_error.append(numpy.sum(squared_distance))
+                    epoch_error.append(numpy.sum(squared_distance)/len(squared_distance))
                     self.runBackprop(-distance)
                 test_set_errors.append(self.checkAccuracyAgainstSet(test_set, self.regression))
         else:
@@ -66,8 +67,9 @@ class FeedForwardNetwork(Algorithm):
             epoch_error = []
             test_set_errors = []
             # training
-            while iter != 1000:
+            while iter != 100:
                 iter += 1
+                print("Epoch: {}".format(iter))
                 # input values into the input layer
                 for index in range(0, len(headless_data)):
                     line = headless_data[index]
@@ -84,6 +86,10 @@ class FeedForwardNetwork(Algorithm):
                     epoch_error.append(numpy.sum(squared_distance))
                     self.runBackprop([-distance])
                 test_set_errors.append(self.checkAccuracyAgainstSet(test_set, self.regression))
+                error_length = len(test_set_errors)
+                if test_set_errors[error_length-1] > test_set_errors[error_length-2]:
+                    print("Test set error converged")
+                    break
         ts = pandas.Series(epoch_error)
         ts.plot()
         plt.show()
@@ -166,7 +172,7 @@ class FeedForwardNetwork(Algorithm):
         # turn results into soft_max
         exp_results = numpy.exp(results)
         soft_max_sum = numpy.sum(exp_results)
-        # results = exp_results/soft_max_sum
+        results = exp_results/soft_max_sum
         # set last layer results to be the softmax sum
         return results, max_value, max_index
 

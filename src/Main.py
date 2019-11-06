@@ -28,13 +28,34 @@ def main():
     # print("=====Image Classification based on Pixel Information=====")
     # segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
     # runClassificationAlgorithms(segmentation)
+    # print("=====Abalone Classification of Sex=====")
+    # abalone = DataSet("../data/abalone.data", 0, regression=False)
+    # ffn = FeedForwardNetwork(8, 0, [], 3, learning_rate=.00001, momentum_constant=0)
+    # abalone.runAlgorithm(ffn)
+
     # cars = DataSet("../data/car.data", target_location=6, isCars=True, regression=False);
-    # ffn = FeedForwardNetwork(6, 0, [], 4, learning_rate=.00001, momentum_constant=0)
+    # # best settings = FeedForwardNetwork(6, 0, [], 4, learning_rate=.00001, momentum_constant=0)
+    # ffn = FeedForwardNetwork(6, 0, [], 4, learning_rate=.000001, momentum_constant=0)
     # cars.runAlgorithm(ffn)
-    segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
-    # 19 features, testing 1 hidden layer, with 10 nodes, 7 class outputs
-    ffn = FeedForwardNetwork(19, 0, [], 7, learning_rate=.01, momentum_constant=0)
-    segmentation.runAlgorithm(ffn)
+    # print("=====Wine Quality=====")
+    # wine = DataSet("../data/winequality.data", target_location=11, regression=True)
+    # # wine zero best: FeedForwardNetwork(11, 0, [], 1, learning_rate=.00001, momentum_constant=.2)
+    # ffn = FeedForwardNetwork(11, 1, [11], 1, learning_rate=.00001, momentum_constant=.2)
+    # wine.runAlgorithm(ffn)
+
+
+    print("=====Forest Fire Regression (Area Burned (hectares))=====")
+    forest_fire = DataSet("../data/forestfires.data", target_location=12, dates=2, days=3, regression=True)
+    # # best for zero layer forest fire: FeedForwardNetwork(12, 0, [], 1, learning_rate=.00001, momentum_constant=.2)
+    # # best for 1 layer FeedForwardNetwork(12, 1, [12], 1, learning_rate=.00001, momentum_constant=.2)
+    ffn = FeedForwardNetwork(12, 0, [], 1, learning_rate=.00001, momentum_constant=.2)
+    forest_fire.runAlgorithm(ffn)
+
+
+    # segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
+    # # 19 features, testing 1 hidden layer, with 10 nodes, 7 class outputs
+    # ffn = FeedForwardNetwork(19, 1, [6], 7, learning_rate=.0001, momentum_constant=.2)
+    # segmentation.runAlgorithm(ffn)
 
     # print("=====Machine Performance Regression (relative performance)=====")
     # machine = DataSet("../data/machine.data", target_location=7, ignore=[0, 1], regression=True)
