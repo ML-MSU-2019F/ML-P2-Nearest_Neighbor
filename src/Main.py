@@ -14,9 +14,7 @@ def main():
     # forest_fire = DataSet("../data/forestfires.data", target_location=12, dates=2, days=3, regression=True)
     # runRegressionAlgorithms(forest_fire)
     #
-    # print("=====Machine Performance Regression (relative performance)=====")
-    # machine = DataSet("../data/machine.data", target_location=7, ignore=[0, 1], regression=True)
-    # runRegressionAlgorithms(machine)
+
 
     # #========Classification
     # print("=====Abalone Classification of Sex=====")
@@ -30,14 +28,19 @@ def main():
     # print("=====Image Classification based on Pixel Information=====")
     # segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
     # runClassificationAlgorithms(segmentation)
-    cars = DataSet("../data/car.data", target_location=6, isCars=True, regression=False);
-    ffn = FeedForwardNetwork(6, 1, [20], 4)
-    cars.runAlgorithm(ffn)
+    # cars = DataSet("../data/car.data", target_location=6, isCars=True, regression=False);
+    # ffn = FeedForwardNetwork(6, 1, [20], 4)
+    # cars.runAlgorithm(ffn)
     segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
     # 19 features, testing 1 hidden layer, with 10 nodes, 7 class outputs
-    ffn = FeedForwardNetwork(19, 1, [25], 7)
+    ffn = FeedForwardNetwork(19, 0, [], 7)
     segmentation.runAlgorithm(ffn)
 
+    # print("=====Machine Performance Regression (relative performance)=====")
+    # machine = DataSet("../data/machine.data", target_location=7, ignore=[0, 1], regression=True)
+    # ffn = FeedForwardNetwork(8, 0, [], 1)
+    # machine.runAlgorithm(ffn)
+    # runRegressionAlgorithms(machine)
     #
     # PAMClusterNew(segmentation, 100)
     #

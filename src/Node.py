@@ -4,7 +4,7 @@ import math
 
 class Node:
 
-    def __init__(self, index, bias=None, learning_rate=.2):
+    def __init__(self, index, bias=None, learning_rate=0.001):
         self.bias = bias
         self.index = index
         self.error = None
@@ -69,6 +69,7 @@ class Node:
         next_layer = self.layer.next_layer
         # different handling if we dont have to take the sum of error influence
         if next_layer.is_output_layer:
+            # backprop over every output weight, relative to output layer
             for i in range(0, len(self.weights)):
                 # output is node associated with weights backprop value
                 next_layer_node = next_layer.nodes[i]
@@ -86,26 +87,36 @@ class Node:
                 if isinstance(self.momentum, int):
                     delta = (error*self.learning_rate) + self.momentum
                 else:
-                    delta = (error * self.learning_rate) + (self.momentum[i] * 0.5)
+                    delta = (error * self.learning_rate) + (self.momentum[i] * 0.1)
                 weight = self.weights[i] - delta
                 new_weights.append(weight)
                 derived_times_errors.append(derived_times_error)
         else:
+            # backprop over internal weight, that does not lead to the output layer
             for i in range(0, len(self.weights)):
                 next_layer_node = next_layer.nodes[i]
+                # take the derivative times error of the next node
                 next_d_and_error = next_layer_node.derived_times_errors
+                # times that value by the output weights of the next node
                 error_by_weight = numpy.multiply(next_d_and_error, next_layer_node.weights)
+                # sum it up, this is our error sum
                 error_sum = numpy.sum(error_by_weight)
+                # next output
                 next_output = next_layer_node.output
+                # get derived
                 derive_activation = self.sigmoidDerived(next_output)
+                # times derived time error sum
                 derived_times_error = error_sum * derive_activation
                 derived_times_errors.append(derived_times_error)
+                # get individual error
                 error = derived_times_error * self.output
                 delta = None
+                # basically if momentum exists
                 if isinstance(self.momentum, int):
-                    delta = (error * self.learning_rate) + self.momentum
+                    delta = (error * self.learning_rate)
                 else:
-                    delta = (error * self.learning_rate) + (self.momentum[i] * 0.5)
+                    delta = (error * self.learning_rate) + (self.momentum[i] * 0.1)
+                # update the weights
                 weight = self.weights[i] - delta
                 new_weights.append(weight)
         self.derived_times_errors = numpy.array(derived_times_errors)

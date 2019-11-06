@@ -32,31 +32,54 @@ class FeedForwardNetwork(Algorithm):
         data_set.makeRandomMap(data_set.data, 10)
         test_set = data_set.getRandomMap(0)
         data = data_set.getAllRandomExcept(0)
-        headless_data = data_set.separateClassFromData(data=data)
+        if not self.data_set.regression:
+            headless_data = data_set.separateClassFromData(data=data)
 
-        iter = 0
-        epoch_error = []
-        test_set_errors = []
-        # training
-        while iter != 5:
-            iter+=1
-        # input values into the input layer
-            for index in range(0, len(headless_data)):
-                line = headless_data[index]
-                if len(line) != self.inputs:
-                    print("Error, we need to have as many inputs as features")
-                    print("We have {} features, but only {} layers".format(len(line), self.inputs))
-                    exit(1)
-                self.runForward(line)
-                results, max_value, max_index = self.getResults()
-                actual_class = data[index][self.data_set.target_location]
-                distance = self.getDistanceFromWantedResult(results, actual_class)
-                # square it for MSE/Cross Entropy error
-                squared_distance = 0.5 * numpy.power(distance, 2)
-                epoch_error.append(numpy.sum(squared_distance))
-                self.runBackprop(distance)
-            test_set_errors.append(self.checkAccuracyAgainstSet(test_set))
-
+            iter = 0
+            epoch_error = []
+            test_set_errors = []
+            # training
+            while iter != 50:
+                iter+=1
+            # input values into the input layer
+                for index in range(0, len(headless_data)):
+                    line = headless_data[index]
+                    if len(line) != self.inputs:
+                        print("Error, we need to have as many inputs as features")
+                        print("We have {} features, but only {} layers".format(len(line), self.inputs))
+                        exit(1)
+                    self.runForward(line)
+                    results, max_value, max_index = self.getResults()
+                    actual_class = data[index][self.data_set.target_location]
+                    distance = self.getDistanceFromWantedResult(results, actual_class)
+                    # square it for MSE/Cross Entropy error
+                    squared_distance = 0.5 * numpy.power(distance, 2)
+                    epoch_error.append(numpy.sum(squared_distance))
+                    self.runBackprop(distance)
+                test_set_errors.append(self.checkAccuracyAgainstSet(test_set, self.data_set.regression))
+        else:
+            iter = 0
+            epoch_error = []
+            test_set_errors = []
+            # training
+            while iter != 20:
+                iter += 1
+                # input values into the input layer
+                for index in range(0, len(data)):
+                    line = data[index]
+                    if len(line) != self.inputs:
+                        print("Error, we need to have as many inputs as features")
+                        print("We have {} features, but only {} layers".format(len(line), self.inputs))
+                        exit(1)
+                    self.runForward(line)
+                    output = self.layers[len(self.layers) - 1].nodes[0].output
+                    actual_value = data[index][self.data_set.target_location]
+                    distance = actual_value - output
+                    # square it for MSE/Cross Entropy error
+                    squared_distance = numpy.power(distance, 2)
+                    epoch_error.append(numpy.sum(squared_distance))
+                    self.runBackprop([-distance])
+                test_set_errors.append(self.checkAccuracyAgainstSet(test_set, self.data_set.regression))
         ts = pandas.Series(test_set_errors)
         ts.plot()
         plt.show()
@@ -75,17 +98,26 @@ class FeedForwardNetwork(Algorithm):
         distance = numpy.subtract(results, wanted_results)
         return distance
 
-    def checkAccuracyAgainstSet(self, test_set):
-        accuracy = 0
-        headless = self.data_set.separateClassFromData(data=test_set)
-        for index in range(0, len(headless)):
-            self.runForward(headless[index])
-            results, max_value, max_index = self.getResults()
-            class_actual = test_set[index][self.data_set.target_location]
-
-            if max_index == self.data_set.ordered_classes[class_actual]:
-                accuracy += 1
-        return accuracy/len(test_set)
+    def checkAccuracyAgainstSet(self, test_set, regression):
+        if not regression:
+            accuracy = 0
+            headless = self.data_set.separateClassFromData(data=test_set)
+            for index in range(0, len(headless)):
+                self.runForward(headless[index])
+                results, max_value, max_index = self.getResults()
+                class_actual = test_set[index][self.data_set.target_location]
+                if max_index == self.data_set.ordered_classes[class_actual]:
+                    accuracy += 1
+            return accuracy/len(test_set)
+        else:
+            mse_sum = 0
+            for index in range(0, len(test_set)):
+                self.runForward(test_set[index])
+                output = self.layers[len(self.layers) - 1].nodes[0].output
+                actual = test_set[index][self.data_set.target_location]
+                mse = numpy.power(actual-output, 2)
+                mse_sum += mse
+            return mse_sum/len(test_set)
 
     def runForward(self, line):
         for i in range(0, len(line)):
@@ -101,7 +133,7 @@ class FeedForwardNetwork(Algorithm):
         for i in range(0, len(self.layers[len(self.layers) - 1].nodes)):
             self.layers[len(self.layers) - 1].nodes[i].error = distance[i]
         for i in range(len(self.layers) - 2, -1, -1):
-            for j in range(len(self.layers[i].nodes) - 1, -1, -1):
+            for j in range(0, len(self.layers[i].nodes)):
                 self.layers[i].nodes[j].backprop()
 
     def runSetOfNodes(self, nodes):
@@ -126,7 +158,7 @@ class FeedForwardNetwork(Algorithm):
         # turn results into soft_max
         exp_results = numpy.exp(results)
         soft_max_sum = numpy.sum(exp_results)
-        # results = exp_results/soft_max_sum
+        results = exp_results/soft_max_sum
         # set last layer results to be the softmax sum
         return results, max_value, max_index
 
@@ -149,7 +181,7 @@ class FeedForwardNetwork(Algorithm):
         for i in range(0, len(self.layers)):
             # initialize weights on all nodes
             for j in range(0, len(self.layers[i].nodes)):
-                self.layers[i].nodes[j].initWeights(-0.5, 0.5)
+                self.layers[i].nodes[j].initWeights(-0.1, 0.1)
 
     def constructInputLayer(self):
         layer = Layer(len(self.layers))
