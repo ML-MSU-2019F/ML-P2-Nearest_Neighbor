@@ -5,13 +5,15 @@ import random
 
 
 class PAM(KNearestNeighbor):
-    medoids = None
-
+    """
+    PAM uses the PAM algorithm to set cluster centers
+    """
     def __init__(self, original: DataSet, medoid_count=20):
+        self.medoids = None
         # set up original, undedited passed dataset
         self.data_set = original
         data = original.data
-        # if the algo result is there, use that instead
+        # use length of algo_result as the amount of medoids
         medoid_count = len(original.algo_result)
         self.data = data
         # If its not regression, we need to separate the data from the class so that we can use numpy
@@ -90,9 +92,12 @@ class PAM(KNearestNeighbor):
         print(self.checkAccuracyAgainstSet(medoids, self.data, 1))
         self.medoids = medoids
 
+    # method for outside ability to access medoids
     def getMedoids(self):
         return self.medoids
 
+    # get the original class of a line.  Since we separate the data from its class, we now need to find what the
+    # original datapoint was in order to get the original class
     def getOriginalClass(self, line):
         location = self.data_set.target_location
         for orig_line in self.data:
@@ -100,23 +105,17 @@ class PAM(KNearestNeighbor):
             if numpy.array_equal(compare_line, line):
                 return orig_line[self.data_set.target_location]
 
+    # get the distance from a single line to multiple lines
     def getDistortion(self, single, multi):
         distortion = 0
         for i in range(0, len(multi)):
             distortion += self.getDistance(single, multi[i])
         return distortion
 
-
+    # get uclidean distance from two items
     def getDistance(self, one, two):
         one = numpy.array(one)
         two = numpy.array(two)
         sub = numpy.subtract(one, two)
         numpy.power(sub, 2)
         return numpy.sum(sub)
-
-    def getChosenMedoid(self, centroids, chosen):
-        chosen = numpy.array(chosen)
-        centroids = numpy.array(centroids)
-        for i in range(0, len(centroids)):
-            if numpy.array_equal(chosen,centroids[i]):
-                return i

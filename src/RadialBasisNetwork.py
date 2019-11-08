@@ -1,11 +1,11 @@
-from MultiLayerPerceptron import FeedForwardNetwork
+from MultiLayerPerceptron import MultiLayerPerceptron
 from DataSet import DataSet
 from NearestNeigbor.KNearestNeighbor import KNearestNeighbor
 from DataSet import DataSet
 import numpy
 
 
-class RadialBasisNetwork(FeedForwardNetwork):
+class RadialBasisNetwork(MultiLayerPerceptron):
 
     def __init__(self, data_set: DataSet, clusters, inputs: int, outputs: int,
                  learning_rate):
