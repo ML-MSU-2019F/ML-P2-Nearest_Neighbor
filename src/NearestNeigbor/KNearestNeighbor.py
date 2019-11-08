@@ -9,9 +9,11 @@ class KNearestNeighbor(Algorithm):
     # k nearest neighbors
     k = None
     regression = None
+
     # pass in k for how many neighbors by default we will be using
-    def __init__(self, k):
+    def __init__(self, k, data_set = None):
         self.k = k
+        self.data_set = data_set
 
     # the run function for KNN, other NN algorithms will make their own.
     # a processed data_set is passed, and whether or not the algorithm will regress
@@ -148,7 +150,7 @@ class KNearestNeighbor(Algorithm):
     def regress(self,actual_value,closest_values):
         total = 0
         for i in range(0,len(closest_values)):
-            total += float(closest_values[i][1])
+            total += numpy.power(float(closest_values[i][1]),2)
         mean = total/len(closest_values)
         return self.MAE(float(actual_value),mean)
 

@@ -6,14 +6,13 @@ import numpy
 class KMeans(KNearestNeighbor):
     centroids = None
 
-    def __init__(self, original:DataSet, k_centers):
+    def __init__(self, original:DataSet):
         # initialize data, if algo was done previously on original, use it as data
         self.data_set = original
-        data = None
-        if len(original.algo_result) is not 0:
-            data = original.algo_result
-        else:
-            data = original.data
+        k_centers = None
+        data = original.data
+        k_centers = len(original.algo_result)
+        print("Running K-Means with K={}".format(k_centers))
         # set class variable for data
         self.data = data[0:]
         # if its not regression, separate our class from our data when forming clusters
@@ -24,7 +23,7 @@ class KMeans(KNearestNeighbor):
         # holds actual centroids
         centroids = []
         # initialize based on first i indexes, which is random
-        self.data_set.makeRandomMap(data.tolist(),1)
+        self.data_set.makeRandomMap(data.tolist(), 1)
         rand_map = self.data_set.getRandomMap(0)[0:]
         for i in range(0, k_centers):
             centroids.append(rand_map[i])

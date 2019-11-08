@@ -4,18 +4,15 @@ import numpy
 import random
 
 
-class PAMClusterNew(KNearestNeighbor):
+class PAM(KNearestNeighbor):
     medoids = None
 
-    def __init__(self, original: DataSet, medoid_count):
+    def __init__(self, original: DataSet, medoid_count=20):
         # set up original, undedited passed dataset
         self.data_set = original
-        data = None
+        data = original.data
         # if the algo result is there, use that instead
-        if len(original.algo_result) is not 0:
-            data = original.algo_result
-        else:
-            data = original.data
+        medoid_count = len(original.algo_result)
         self.data = data
         # If its not regression, we need to separate the data from the class so that we can use numpy
         if not self.data_set.regression:
@@ -91,16 +88,19 @@ class PAMClusterNew(KNearestNeighbor):
             medoids[i].insert(self.data_set.target_location, self.getOriginalClass(medoids[i]))
         # check the accuracy of our medoids against the original data set
         print(self.checkAccuracyAgainstSet(medoids, self.data, 1))
+        self.medoids = medoids
+
+    def getMedoids(self):
+        return self.medoids
 
     def getOriginalClass(self, line):
-        location = self.data_set.target_location;
+        location = self.data_set.target_location
         for orig_line in self.data:
             compare_line = numpy.array(orig_line[:location] + orig_line[location+1:])
             if numpy.array_equal(compare_line, line):
-                print("found original class!")
                 return orig_line[self.data_set.target_location]
 
-    def getDistortion(self,single,multi):
+    def getDistortion(self, single, multi):
         distortion = 0
         for i in range(0, len(multi)):
             distortion += self.getDistance(single, multi[i])

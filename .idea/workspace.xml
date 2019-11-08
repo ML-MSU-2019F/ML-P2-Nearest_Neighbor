@@ -2,9 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdff9927-8acb-45b4-b1e1-6001dab851f7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/RadialBasisNetwork.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/RadialBasisNode.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FeedForwardNetwork.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/FeedForwardNetwork.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FeedForwardNetwork.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/MultiLayerPerceptron.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Layer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/CondensedNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/NearestNeigbor/CondensedNearestNeighbor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/KMeans.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/NearestNeigbor/KMeans.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/KNearestNeighbor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/NearestNeigbor/KNearestNeighbor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/PAM.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/NearestNeigbor/PAM.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Node.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/MLPNode.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -99,7 +107,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/NearestNeigbor/KNearestNeighbor.py</url>
-          <line>25</line>
+          <line>27</line>
           <option name="timeStamp" value="136" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -109,23 +117,43 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/NearestNeigbor/PAM.py</url>
-          <line>53</line>
+          <line>50</line>
           <option name="timeStamp" value="148" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/FeedForwardNetwork.py</url>
-          <line>132</line>
+          <url>file://$PROJECT_DIR$/src/MultiLayerPerceptron.py</url>
+          <line>153</line>
           <option name="timeStamp" value="187" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/FeedForwardNetwork.py</url>
-          <line>87</line>
-          <option name="timeStamp" value="198" />
+          <url>file://$PROJECT_DIR$/src/MultiLayerPerceptron.py</url>
+          <line>145</line>
+          <option name="timeStamp" value="207" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/FeedForwardNetwork.py</url>
-          <line>117</line>
-          <option name="timeStamp" value="204" />
+          <url>file://$PROJECT_DIR$/src/MultiLayerPerceptron.py</url>
+          <line>132</line>
+          <option name="timeStamp" value="209" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/Main.py</url>
+          <line>34</line>
+          <option name="timeStamp" value="210" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/RadialBasisNetwork.py</url>
+          <line>48</line>
+          <option name="timeStamp" value="214" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/MLPNode.py</url>
+          <line>139</line>
+          <option name="timeStamp" value="217" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/MLPNode.py</url>
+          <line>112</line>
+          <option name="timeStamp" value="220" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

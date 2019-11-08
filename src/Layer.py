@@ -1,4 +1,4 @@
-from Node import Node
+from MLPNode import Node
 
 
 class Layer:
@@ -10,6 +10,7 @@ class Layer:
         self.next_layer = None
         self.is_output_layer = False
         self.is_input_layer = False
+        self.bias = 1
 
     def setOutputLayer(self,isOutputLayer):
         self.is_output_layer = isOutputLayer

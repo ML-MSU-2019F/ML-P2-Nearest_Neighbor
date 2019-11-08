@@ -26,7 +26,7 @@ class CondensedNearestNeighbor(KNearestNeighbor):
             # set last data
             last_data = condensed_set[0:]
             # add to iterations
-            iterations+=1
+            iterations += 1
             # maintain a list of points to add
             add_list = []
             # set initial index
@@ -38,11 +38,11 @@ class CondensedNearestNeighbor(KNearestNeighbor):
                 # check accuracy, if is wrong, add it to condensed set
                 one = original_data[index]
                 all = condensed_set
-                closest = self.getNearestNeighbor(one,all,1)
+                closest = self.getNearestNeighbor(one, all, 1)
                 if self.classify(one[self.data_set.target_location],closest) is 0:
                     add_list.append(index)
                 # if we reach our batch of 50, break to add those points
-                if len(add_list) == 100:
+                if len(add_list) == 10:
                     break
                 add_index += 1
             # if we don't add any, we are done
@@ -63,3 +63,4 @@ class CondensedNearestNeighbor(KNearestNeighbor):
         # finished, set final_data
         print("Set stopped growing in size, accuracy: {:2.2f}".format((accuracy) * 100))
         self.final_data = last_data
+        data_set.algo_result = last_data

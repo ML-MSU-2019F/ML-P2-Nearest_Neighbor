@@ -2,10 +2,10 @@ import numpy
 import random
 import math
 
+
 class Node:
 
-    def __init__(self, index, bias=None, learning_rate=0.1, momentum_constant=.5):
-        self.bias = bias
+    def __init__(self, index, learning_rate=0.1, momentum_constant=.5):
         self.index = index
         self.error = None
         self.learning_rate = learning_rate
@@ -17,10 +17,14 @@ class Node:
         self.layer = None
         self.output = None
         self.override_input = None
+        self.override_ouput = None
         self.network = None
 
     def setTopNetwork(self, network):
         self.network = network
+
+    def overrideOutput(self, value):
+        self.override_ouput = value
 
     def overrideInput(self, value):
         self.override_input = value
@@ -36,6 +40,7 @@ class Node:
             print("Error, tried to init output weight without knowing prev layer")
             exit(1)
         weights = []
+        # go to all but the last, bias node
         for i in range(0, len(self.layer.next_layer.nodes)):
             rand = random.random()  # rand int between 0.0 and 1.0
             total_range = math.fabs(start_range-end_range)  # total range between start and end
@@ -56,7 +61,9 @@ class Node:
 
     def run(self):
         # if this is the input layer
-        if self.override_input is not None:
+        if self.override_ouput is not None:
+            self.output = self.override_ouput
+        elif self.override_input is not None:
             # set the output to the activated overridden input
             self.output = self.sigmoid(self.override_input)
         else:
