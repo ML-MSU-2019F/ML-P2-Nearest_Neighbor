@@ -2,22 +2,25 @@ from DataSet import DataSet
 from NearestNeigbor.PAM import PAM
 from NearestNeigbor.CondensedNearestNeighbor import CondensedNearestNeighbor
 from NearestNeigbor.KMeans import KMeans
-from RadialBasisNetwork import RadialBasisNetwork
 from MultiLayerPerceptron import MultiLayerPerceptron
-
+from Backprop import Backprop
+from GeneticAlgorithm import GeneticAlgorithm
 
 # Main in this project is used to stage and run algorithms.  The algorithms for this project that are being run are:
 # CNN, KMeans, PAM - MLP, and RBF.
 # All the examples will be uncommented, it is highly recommended you comment out all datasets and algorithms except
 # the ones you want
 def main():
+    backprop = Backprop()
+    genetic_algorithm = GeneticAlgorithm()
     # ========Classification
     abalone = DataSet("../data/abalone.data", 0, regression=False)
-    ffn = MultiLayerPerceptron(8, 0, [], 3, learning_rate=.00001, momentum_constant=.4)
+    ffn = MultiLayerPerceptron(8, 0, [], 3, learning_rate=.00001, momentum_constant=.4, stop_accuracy=.0001)
+    ffn.setLearningAlgorithm(genetic_algorithm)
     abalone.runAlgorithm(ffn)
 
     cars = DataSet("../data/car.data", target_location=6, isCars=True, regression=False);
-    ffn = MultiLayerPerceptron(6, 0, [], 4, learning_rate=.00001, momentum_constant=.1)
+    ffn = MultiLayerPerceptron(6, 0, [], 4, learning_rate=.00001, momentum_constant=.1, stop_accuracy=.0001)
     cars.runAlgorithm(ffn)
 
     segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
