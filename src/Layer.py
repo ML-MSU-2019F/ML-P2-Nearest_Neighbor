@@ -1,4 +1,4 @@
-from MLPNode import Node
+from MLPNode import MLPNode
 
 
 class Layer:
@@ -23,7 +23,7 @@ class Layer:
         self.is_input_layer = isInputLayer
 
     # add node to list of nodes in layer
-    def addNode(self, node: Node):
+    def addNode(self, node: MLPNode):
         self.nodes.append(node)
 
     # set the reference to the next layer, used for linking purposes

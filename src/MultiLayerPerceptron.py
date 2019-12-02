@@ -1,7 +1,8 @@
 from Algorithm import Algorithm
-from MLPNode import Node
+from MLPNode import MLPNode
 from Layer import Layer
 from DataSet import DataSet
+from Weight import Weight
 import math
 import numpy
 import matplotlib.pyplot as plt
@@ -25,6 +26,7 @@ class MultiLayerPerceptron(Algorithm):
     def __init__(self, inputs: int, hidden_layers: int, nodes_by_layers: list, outputs: int, learning_rate, momentum_constant, stop_accuracy):
         # initializing instance variables
         self.layers = []
+        self.weights = []
         self.inputs = inputs
         self.hidden_layers = hidden_layers
         self.nodes_by_layers = nodes_by_layers
@@ -41,6 +43,7 @@ class MultiLayerPerceptron(Algorithm):
         self.constructOutputLayer()
         self.link_layers()
         self.initializeWeights()
+        self.getWeightReferences()
         print("Neural Net constructed")
 
     def setLearningAlgorithm(self, la: LearningAlgorithm):
@@ -162,6 +165,15 @@ class MultiLayerPerceptron(Algorithm):
             # initialize weights on all nodes
             for j in range(0, len(self.layers[i].nodes)):
                 self.layers[i].nodes[j].initWeights(-0.3, 0.3)
+
+    def getWeightReferences(self):
+        weights = []
+        for i in range(0, len(self.layers)):
+            for j in range(0, len(self.layers[i].nodes)):
+                for k in range(0, len(self.layers[i].nodes[j].weights)):
+                    weights.append(self.layers[i].nodes[j].weights[k])
+        self.weights = weights
+
     """
     Construct the input layer, including a bias node
     """
@@ -169,13 +181,13 @@ class MultiLayerPerceptron(Algorithm):
         layer = Layer(len(self.layers))
         for i in range(0, self.inputs):
             # initialize node with index, learning_rate, and momentum constant
-            node_i = Node(index=i, learning_rate=self.learning_rate, momentum_constant=self.momentum_constant)
+            node_i = MLPNode(index=i, learning_rate=self.learning_rate, momentum_constant=self.momentum_constant)
             # set references so node is easily able to access global, and semiglobal variables.
             node_i.setTopNetwork(self)
             node_i.setLayer(layer)
             layer.addNode(node_i)
         # add bias node, which has its output fixed to 1
-        node_bias = Node(index=self.inputs, learning_rate=self.learning_rate, momentum_constant=self.momentum_constant)
+        node_bias = MLPNode(index=self.inputs, learning_rate=self.learning_rate, momentum_constant=self.momentum_constant)
         node_bias.setTopNetwork(self)
         node_bias.setLayer(layer)
         node_bias.overrideOutput(1)
@@ -190,7 +202,7 @@ class MultiLayerPerceptron(Algorithm):
         layer = Layer(len(self.layers))
         for i in range(0, self.outputs):
             # initialize node with index, learning rate and momentum constant
-            node_i = Node(index=i, learning_rate=self.learning_rate, momentum_constant=self.momentum_constant)
+            node_i = MLPNode(index=i, learning_rate=self.learning_rate, momentum_constant=self.momentum_constant)
             # set references so node is easily able to access global, and semiglobal variables.
             node_i.setTopNetwork(self)
             node_i.setLayer(layer)
@@ -215,14 +227,14 @@ class MultiLayerPerceptron(Algorithm):
             layer = Layer(len(self.layers))
             for j in range(0, self.nodes_by_layers[i]):
                 # initialize node with an index, learning_rate, and momentum constant
-                node_j = Node(index=j, learning_rate=self.learning_rate, momentum_constant=self.momentum_constant)
+                node_j = MLPNode(index=j, learning_rate=self.learning_rate, momentum_constant=self.momentum_constant)
                 # set references so node is easily able to access global, and semiglobal variables.
                 node_j.setTopNetwork(self)
                 node_j.setLayer(layer)
                 layer.addNode(node_j)
             # add bias node, which has its output fixed to 1
-            node_bias = Node(index=self.nodes_by_layers[i], learning_rate=self.learning_rate,
-                             momentum_constant=self.momentum_constant)
+            node_bias = MLPNode(index=self.nodes_by_layers[i], learning_rate=self.learning_rate,
+                                momentum_constant=self.momentum_constant)
             node_bias.overrideOutput(1)
             node_bias.setTopNetwork(self)
             node_bias.setLayer(layer)

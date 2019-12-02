@@ -1,9 +1,10 @@
 import numpy
 import random
 import math
+from Weight import Weight
 
 
-class Node:
+class MLPNode:
     """
     Node class, does much of the work required for feedforward and backprop
     Initialization:
@@ -50,15 +51,16 @@ class Node:
         if self.layer.next_layer is None:
             print("Error, tried to init output weight without knowing prev layer")
             exit(1)
-
         weights = []
         for i in range(0, len(self.layer.next_layer.nodes)):
+            weight = Weight()
             rand = random.random()  # rand int between 0.0 and 1.0
             total_range = math.fabs(start_range-end_range)  # total range between start and end
             # random weight by adding to start a percentage of whole range
             rand_weight = (rand * total_range) + start_range
-            weights.append(rand_weight)
-        self.weights = numpy.array(weights)
+            weight.setWeight(rand_weight)
+            weights.append(weight)
+        self.weights = weights
 
     # gets previous layer weights and outputs
     def getPreviousLayerWeightsAndOutputs(self):
@@ -66,7 +68,7 @@ class Node:
         outputs = []
         # go to previous nodes, for each node get the weights relating to the node and the outputs
         for i in range(0, len(self.layer.prev_layer.nodes)):
-            weights.append(self.layer.prev_layer.nodes[i].weights[self.index])
+            weights.append(self.layer.prev_layer.nodes[i].weights[self.index].weight)
             outputs.append(self.layer.prev_layer.nodes[i].output)
         return weights, outputs
 
