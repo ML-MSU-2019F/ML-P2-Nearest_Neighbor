@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdff9927-8acb-45b4-b1e1-6001dab851f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/DifferentialEvolution.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Weight.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ParticleSwarmOptimization.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GeneticAlgorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GeneticAlgorithm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Layer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MLPNode.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/MLPNode.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MultiLayerPerceptron.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/MultiLayerPerceptron.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +53,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\Alpine\AppData\Local\Programs\Python\Python37-32\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\Strawberry\AppData\Local\Programs\Python\Python37-32\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -119,23 +114,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/MLPNode.py</url>
-          <line>163</line>
+          <line>165</line>
           <option name="timeStamp" value="217" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/MLPNode.py</url>
-          <line>138</line>
+          <line>140</line>
           <option name="timeStamp" value="220" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/GeneticAlgorithm.py</url>
-          <line>100</line>
-          <option name="timeStamp" value="230" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/GeneticAlgorithm.py</url>
-          <line>40</line>
-          <option name="timeStamp" value="231" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/DifferentialEvolution.py</url>
@@ -154,7 +139,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/GeneticAlgorithm.py</url>
-          <line>22</line>
+          <line>58</line>
           <option name="timeStamp" value="238" />
         </line-breakpoint>
       </breakpoints>

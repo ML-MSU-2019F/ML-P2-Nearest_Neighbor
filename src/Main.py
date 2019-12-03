@@ -6,32 +6,33 @@ from MultiLayerPerceptron import MultiLayerPerceptron
 from Backprop import Backprop
 from GeneticAlgorithm import GeneticAlgorithm
 from DifferentialEvolution import DifferentialEvolution
-
+from ParticleSwarmOptimization import ParticleSwarmOptimization
 # Main in this project is used to stage and run algorithms.  The algorithms for this project that are being run are:
 # CNN, KMeans, PAM - MLP, and RBF.
 # All the examples will be uncommented, it is highly recommended you comment out all datasets and algorithms except
 # the ones you want
 def main():
+    particle_swarm = ParticleSwarmOptimization()
     backprop = Backprop()
     genetic_algorithm = GeneticAlgorithm()
     differential_evolution = DifferentialEvolution()
     # ========Classification
-    # abalone = DataSet("../data/abalone.data", 0, regression=False)
-    # ffn = MultiLayerPerceptron(8, 0, [], 3, learning_rate=.00001, momentum_constant=.4, stop_accuracy=.0001)
-    # ffn.setLearningAlgorithm(genetic_algorithm)
-    # abalone.runAlgorithm(ffn)
+    abalone = DataSet("../data/abalone.data", 0, regression=False)
+    ffn = MultiLayerPerceptron(8, 0, [], 3, learning_rate=.00001, momentum_constant=.4, stop_accuracy=.0001)
+    ffn.setLearningAlgorithm(particle_swarm)
+    abalone.runAlgorithm(ffn)
 
     # cars = DataSet("../data/car.data", target_location=6, isCars=True, regression=False);
     # ffn = MultiLayerPerceptron(6, 0, [], 4, learning_rate=.00001, momentum_constant=.1, stop_accuracy=.0001)
     # cars.runAlgorithm(ffn)
     #
-    segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
-    # cnn, means, medoids = getCNNMeansAndMedoids(segmentation, 5)
-    # runRadialBasisNetworkAlgorithms(cnn, means, medoids, segmentation, 19, 7, .001)
-    # print("Initializing Radial Basis Network with CNN Set")
-    ffn = MultiLayerPerceptron(19, 2, [8, 8], 7, learning_rate=.01, momentum_constant=.8, stop_accuracy=.0001)
-    ffn.setLearningAlgorithm(genetic_algorithm)
-    segmentation.runAlgorithm(ffn)
+    # segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
+    # # cnn, means, medoids = getCNNMeansAndMedoids(segmentation, 5)
+    # # runRadialBasisNetworkAlgorithms(cnn, means, medoids, segmentation, 19, 7, .001)
+    # # print("Initializing Radial Basis Network with CNN Set")
+    # ffn = MultiLayerPerceptron(19, 2, [8, 8], 7, learning_rate=.01, momentum_constant=.8, stop_accuracy=.0001)
+    # ffn.setLearningAlgorithm(particle_swarm)
+    # segmentation.runAlgorithm(ffn)
     # #
     # ===========Regression
     # print("=====Forest Fire Regression (Area Burned (hectares))=====")
