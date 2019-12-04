@@ -25,8 +25,9 @@ class DifferentialEvolution(LearningAlgorithm):
         bound = (len(self.population) -1)
         gen_count = 0
         best_accuracy = math.inf
+        print("Generation: ")
         while gen_count != 100:
-            print("Generation: {}".format(gen_count))
+            print("{},".format(gen_count), end="")
             gen_count+=1
             for i in range(0, len(current_population)):
                 initial_accuracy = self.evaluateFitness(current_population[i])

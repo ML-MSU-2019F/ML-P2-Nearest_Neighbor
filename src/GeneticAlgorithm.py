@@ -4,10 +4,11 @@ import copy
 import random
 import math
 import heapq
-
+import numpy
+import time
 
 class GeneticAlgorithm(LearningAlgorithm):
-    def __init__(self, population_count=10, mutation_rate=.2, mutation_shift_constant=.5, crossover_rate=.4):
+    def __init__(self, population_count=10, mutation_rate=.2, mutation_shift_constant=.3, crossover_rate=.5):
         self.population_count = population_count
         self.population = None
         self.data_set = None
@@ -15,46 +16,63 @@ class GeneticAlgorithm(LearningAlgorithm):
         self.crossover_rate = crossover_rate
         self.mutation_shift_constant = mutation_shift_constant
         self.weight_length = None
-        self.train_set = None
-        self.test_set = None
 
     def run(self, mlp: MultiLayerPerceptron):
         self.data_set = mlp.data_set
-        self.data_set.makeRandomMap(self.data_set.data, 5)
-        self.train_set = self.data_set.getRandomMap(0)
-        self.test_set = self.data_set.getAllRandomExcept(0)
-        self.population = self.initPopulation(mlp)
         self.weight_length = len(mlp.weights)
+        self.data_set.makeRandomMap(self.data_set.data, 5)
+        losses = []
+        times = []
+        for i in range(0, 5):
+            train_set = self.data_set.getRandomMap(i)
+            test_set = self.data_set.getAllRandomExcept(i)
+            start = time.time()
+            print("Running Fold {}".format(i))
+            print("=== Initializing Population ===")
+            population = self.initPopulation(mlp)
+            print("=== Population Initialized ===")
+            print("=== Starting GA=== ")
+            loss = self.runGA(population, train_set,test_set)
+            end = time.time()
+            times.append(end-start)
+            losses.append(loss)
+        mean_loss = numpy.mean(losses)
+        mean_time = numpy.mean(times)
+        print("Mean MSE: {}".format(mean_loss))
+        print("Mean Time: {}".format(mean_time))
+        self.weight_length = len(mlp.weights)
+
+    def runGA(self, population, train_set, test_set):
         accuracies = []
-        for i in range(0, len(self.population)):
-            accuracy = self.evaluateFitness(self.population[i],self.train_set)
+        for i in range(0, len(population)):
+            accuracy = self.evaluateFitness(population[i], train_set)
             accuracies.append((accuracy, i))
         gen_counter = 0
         stagnation_counter = 0
-        best_accuracy_mlp = None
         best_accuracy_test = math.inf
         best_accuracy_test_mlp = None
-        prev_test_accuracy = math.inf
         worse_accuracy_counter = 0
+        print("Gen: ", end="")
         while True:
-            print("Gen {}".format(gen_counter))
+            print("{} ".format(gen_counter), end="")
             gen_counter += 1
-            self.crossover(accuracies)
-            self.mutate()
+            child = self.crossover(accuracies, population)
+            population.append(child)
+            population = self.mutate(population)
             best_accuracy_train = math.inf
             best_accuracy_train_mlp = None
             best_changed = False
             accuracies = []
             worst = -math.inf
             worst_index = None
-            for i in range(0, len(self.population)):
-                accuracy = self.evaluateFitness(self.population[i], self.train_set)
+            for i in range(0, len(population)):
+                accuracy = self.evaluateFitness(population[i], train_set)
                 if accuracy > worst:
                     worst = accuracy
                     worst_index = i
                 if accuracy < best_accuracy_train:
                     best_accuracy_train = accuracy
-                    best_accuracy_train_mlp = self.population[i]
+                    best_accuracy_train_mlp = population[i]
                     best_changed = True
                 # include index for sorting purposes
                 accuracies.append((accuracy,i))
@@ -63,28 +81,29 @@ class GeneticAlgorithm(LearningAlgorithm):
             else:
                 stagnation_counter = 0
             if stagnation_counter is 10:
-                print("Finished: Stagnation occurred over 10 generations")
+                print("\nFinished: Stagnation occurred over 10 generations")
                 break
             if gen_counter == 500:
-                print("Finished: Generation limit reached")
+                print("\nFinished: Generation limit reached")
                 break
-            accuracy_test = self.evaluateFitness(best_accuracy_train_mlp, self.data_set.getAllRandomExcept(0))
-            if prev_test_accuracy < accuracy_test:
+            accuracy_test = self.evaluateFitness(best_accuracy_train_mlp, test_set)
+            if best_accuracy_test < accuracy_test:
                 worse_accuracy_counter += 1
             else:
                 best_accuracy_test_mlp = copy.deepcopy(best_accuracy_train_mlp)
                 worse_accuracy_counter = 0
             if worse_accuracy_counter == 5:
-                print("Finished: Worse accuracy on test set 5 times in a row")
+                print("\nFinished: Worse accuracy on test set 5 times in a row")
                 break
-            prev_test_accuracy = accuracy_test
             if accuracy_test < best_accuracy_test:
                 best_accuracy_test = accuracy_test
+                print("\nNew best accuracy: {}".format(best_accuracy_test))
+                print("Gen: ", end="")
             accuracies = self.removeLargestAccuracy(accuracies, worst_index)
-            del self.population[worst_index]
-            print("Best train MLP has test accuracy: {}".format(accuracy_test))
-        total = self.evaluateFitness(best_accuracy_test_mlp, self.data_set.getAllRandomExcept(0))
+            del population[worst_index]
+        total = self.evaluateFitness(best_accuracy_test_mlp, test_set)
         print("Final total accuracy: {}".format(total))
+        return total
 
     def removeLargestAccuracy(self, accuracy, index):
         for i in range(0, len(accuracy)):
@@ -93,17 +112,17 @@ class GeneticAlgorithm(LearningAlgorithm):
         del accuracy[index]
         return accuracy
 
-    def crossover(self, accuracy):
+    def crossover(self, accuracy, population):
         best = self.tournamentSelect(accuracy)
-        pop1 = self.population[best[0][1]]
-        pop2 = self.population[best[1][1]]
+        pop1 = population[best[0][1]]
+        pop2 = population[best[1][1]]
         child = copy.deepcopy(pop1)
         for i in range(0, self.weight_length):
             crossover_rand = random.random()
             if crossover_rand <= self.crossover_rate:
                 pop2_weight = pop2.weights[i].weight
                 child.weights[i].setWeight(pop2_weight)
-        self.population.append(child)
+        return child
 
     def tournamentSelect(self, accuracy):
         random_indexes = []
@@ -124,21 +143,22 @@ class GeneticAlgorithm(LearningAlgorithm):
         best = heapq.nsmallest(2, tournament)
         return best
 
-    def mutate(self):
-        for i in range(0, len(self.population)):
+    def mutate(self, population):
+        for i in range(0, len(population)):
             for j in range(0, self.weight_length):
                 mutate_rand = random.random()
                 # mutate if mutation rate is less than or equal to the rand
                 if mutate_rand <= self.mutation_rate:
                     rand1 = random.random()  # rand int between 0.0 and 1.0
                     rand2 = random.random()  # rand int between 0.0 and 1.0
-                    population_index = math.floor(rand1 * (len(self.population)-1))
+                    population_index = math.floor(rand1 * (len(population)-1))
                     weight_index = math.floor(rand2 * (self.weight_length - 1))
-                    original_weight = self.population[i].weights[j].weight
-                    update = self.population[population_index].weights[weight_index].weight * self.mutation_shift_constant
+                    original_weight = population[i].weights[j].weight
+                    update = population[population_index].weights[weight_index].weight * self.mutation_shift_constant
                     # set mutate by getting a random weight from the population and shifting the weight over to it
                     # based on the mutation_shift_constant
-                    self.population[i].weights[j].setWeight(original_weight + update)
+                    population[i].weights[j].setWeight(original_weight + update)
+        return population
 
     def evaluateFitness(self, mlp, set):
         accuracy = mlp.checkAccuracyAgainstSet(set, mlp.regression)
