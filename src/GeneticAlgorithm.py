@@ -7,7 +7,7 @@ import heapq
 
 
 class GeneticAlgorithm(LearningAlgorithm):
-    def __init__(self, population_count=10, mutation_rate=.01, mutation_shift_constant=.5, crossover_rate=.5):
+    def __init__(self, population_count=10, mutation_rate=.2, mutation_shift_constant=.5, crossover_rate=.4):
         self.population_count = population_count
         self.population = None
         self.data_set = None
@@ -15,33 +15,82 @@ class GeneticAlgorithm(LearningAlgorithm):
         self.crossover_rate = crossover_rate
         self.mutation_shift_constant = mutation_shift_constant
         self.weight_length = None
+        self.train_set = None
+        self.test_set = None
 
     def run(self, mlp: MultiLayerPerceptron):
         self.data_set = mlp.data_set
+        self.data_set.makeRandomMap(self.data_set.data, 5)
+        self.train_set = self.data_set.getRandomMap(0)
+        self.test_set = self.data_set.getAllRandomExcept(0)
         self.population = self.initPopulation(mlp)
         self.weight_length = len(mlp.weights)
-        accuracy = self.evaluateFitness()
-        print(accuracy)
-        iter = 0
-        while iter < 500:
-            print("Gen {}".format(iter))
-            iter += 1
-            self.crossover(accuracy)
+        accuracies = []
+        for i in range(0, len(self.population)):
+            accuracy = self.evaluateFitness(self.population[i],self.train_set)
+            accuracies.append((accuracy, i))
+        gen_counter = 0
+        stagnation_counter = 0
+        best_accuracy_mlp = None
+        best_accuracy_test = math.inf
+        best_accuracy_test_mlp = None
+        prev_test_accuracy = math.inf
+        worse_accuracy_counter = 0
+        while True:
+            print("Gen {}".format(gen_counter))
+            gen_counter += 1
+            self.crossover(accuracies)
             self.mutate()
-            accuracy = self.evaluateFitness()
-            heapq.heapify(accuracy)
-            largest = heapq.nlargest(1, accuracy)
-            accuracy = self.removeLargestAccuracy(accuracy)
-            del self.population[largest[0][1]]
-            print(accuracy)
-        print()
+            best_accuracy_train = math.inf
+            best_accuracy_train_mlp = None
+            best_changed = False
+            accuracies = []
+            worst = -math.inf
+            worst_index = None
+            for i in range(0, len(self.population)):
+                accuracy = self.evaluateFitness(self.population[i], self.train_set)
+                if accuracy > worst:
+                    worst = accuracy
+                    worst_index = i
+                if accuracy < best_accuracy_train:
+                    best_accuracy_train = accuracy
+                    best_accuracy_train_mlp = self.population[i]
+                    best_changed = True
+                # include index for sorting purposes
+                accuracies.append((accuracy,i))
+            if not best_changed:
+                stagnation_counter += 1
+            else:
+                stagnation_counter = 0
+            if stagnation_counter is 10:
+                print("Finished: Stagnation occurred over 10 generations")
+                break
+            if gen_counter == 500:
+                print("Finished: Generation limit reached")
+                break
+            accuracy_test = self.evaluateFitness(best_accuracy_train_mlp, self.data_set.getAllRandomExcept(0))
+            if prev_test_accuracy < accuracy_test:
+                worse_accuracy_counter += 1
+            else:
+                best_accuracy_test_mlp = copy.deepcopy(best_accuracy_train_mlp)
+                worse_accuracy_counter = 0
+            if worse_accuracy_counter == 5:
+                print("Finished: Worse accuracy on test set 5 times in a row")
+                break
+            prev_test_accuracy = accuracy_test
+            if accuracy_test < best_accuracy_test:
+                best_accuracy_test = accuracy_test
+            accuracies = self.removeLargestAccuracy(accuracies, worst_index)
+            del self.population[worst_index]
+            print("Best train MLP has test accuracy: {}".format(accuracy_test))
+        total = self.evaluateFitness(best_accuracy_test_mlp, self.data_set.getAllRandomExcept(0))
+        print("Final total accuracy: {}".format(total))
 
-    def removeLargestAccuracy(self, accuracy):
-        largest_index = accuracy[len(accuracy)-1][1]
+    def removeLargestAccuracy(self, accuracy, index):
         for i in range(0, len(accuracy)):
-            if accuracy[i][1] > largest_index:
+            if accuracy[i][1] > index:
                 accuracy[i] = (accuracy[i][0], accuracy[i][1]-1)
-        del accuracy[len(accuracy) - 1]
+        del accuracy[index]
         return accuracy
 
     def crossover(self, accuracy):
@@ -58,7 +107,7 @@ class GeneticAlgorithm(LearningAlgorithm):
 
     def tournamentSelect(self, accuracy):
         random_indexes = []
-        while len(random_indexes) != 5:
+        while len(random_indexes) != math.floor(self.population_count/2):
             rand = random.random()  # rand int between 0.0 and 1.0
             index = math.floor(rand * (len(accuracy) - 1))
             accepted = True
@@ -91,15 +140,9 @@ class GeneticAlgorithm(LearningAlgorithm):
                     # based on the mutation_shift_constant
                     self.population[i].weights[j].setWeight(original_weight + update)
 
-    def evaluateFitness(self):
-        self.data_set.makeRandomMap(self.data_set.data, 10)
-        subset = self.data_set.getRandomMap(0)
-        accuracies = []
-        for i in range(0, len(self.population)):
-            print("Checking accuracy against population, progress: {:.0f}%".format(i*100/(len(self.population)-1)))
-            accuracy = self.population[i].checkAccuracyAgainstSet(subset, self.population[i].regression)
-            accuracies.append((accuracy, i))
-        return accuracies
+    def evaluateFitness(self, mlp, set):
+        accuracy = mlp.checkAccuracyAgainstSet(set, mlp.regression)
+        return accuracy
 
     def initPopulation(self, mlp):
         population = []

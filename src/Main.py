@@ -17,31 +17,28 @@ def main():
     genetic_algorithm = GeneticAlgorithm()
     differential_evolution = DifferentialEvolution()
     # ========Classification
-    abalone = DataSet("../data/abalone.data", 0, regression=False)
-    ffn = MultiLayerPerceptron(8, 0, [], 3, learning_rate=.00001, momentum_constant=.4, stop_accuracy=.0001)
-    ffn.setLearningAlgorithm(particle_swarm)
-    abalone.runAlgorithm(ffn)
+    # abalone = DataSet("../data/abalone.data", 0, regression=False)
+    # ffn = MultiLayerPerceptron(8, 0, [], 3, learning_rate=.00001, momentum_constant=.4, stop_accuracy=.0001)
+    # ffn.setLearningAlgorithm(particle_swarm)
+    # abalone.runAlgorithm(ffn)
 
     # cars = DataSet("../data/car.data", target_location=6, isCars=True, regression=False);
     # ffn = MultiLayerPerceptron(6, 0, [], 4, learning_rate=.00001, momentum_constant=.1, stop_accuracy=.0001)
     # cars.runAlgorithm(ffn)
     #
     # segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
-    # # cnn, means, medoids = getCNNMeansAndMedoids(segmentation, 5)
-    # # runRadialBasisNetworkAlgorithms(cnn, means, medoids, segmentation, 19, 7, .001)
-    # # print("Initializing Radial Basis Network with CNN Set")
     # ffn = MultiLayerPerceptron(19, 2, [8, 8], 7, learning_rate=.01, momentum_constant=.8, stop_accuracy=.0001)
-    # ffn.setLearningAlgorithm(particle_swarm)
+    # ffn.setLearningAlgorithm(genetic_algorithm)
     # segmentation.runAlgorithm(ffn)
     # #
     # ===========Regression
-    # print("=====Forest Fire Regression (Area Burned (hectares))=====")
-    # forest_fire = DataSet("../data/forestfires.data", target_location=12, dates=2, days=3, regression=True)
-    # # # best for zero layer forest fire: MultiLayerPerceptron(12, 0, [], 1, learning_rate=.00001, momentum_constant=.2)
-    # # # best for 1 layer MultiLayerPerceptron(12, 1, [12], 1, learning_rate=.00001, momentum_constant=.2)
-    # ffn = MultiLayerPerceptron(12, 2, [6, 6], 1, learning_rate=0.001, momentum_constant=.6, stop_accuracy=.1)
-    # ffn.setLearningAlgorithm(genetic_algorithm)
-    # forest_fire.runAlgorithm(ffn)
+    print("=====Forest Fire Regression (Area Burned (hectares))=====")
+    forest_fire = DataSet("../data/forestfires.data", target_location=12, dates=2, days=3, regression=True)
+    # # best for zero layer forest fire: MultiLayerPerceptron(12, 0, [], 1, learning_rate=.00001, momentum_constant=.2)
+    # # best for 1 layer MultiLayerPerceptron(12, 1, [12], 1, learning_rate=.00001, momentum_constant=.2)
+    ffn = MultiLayerPerceptron(12, 2, [6, 6], 1, learning_rate=0.001, momentum_constant=.6, stop_accuracy=.1)
+    ffn.setLearningAlgorithm(genetic_algorithm)
+    forest_fire.runAlgorithm(ffn)
     #
     # print("=====Machine Performance Regression (relative performance)=====")
     # machine = DataSet("../data/machine.data", target_location=7, ignore=[0, 1], regression=True)
