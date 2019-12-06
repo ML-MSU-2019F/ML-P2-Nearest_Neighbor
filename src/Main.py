@@ -26,10 +26,10 @@ def main():
     # ffn = MultiLayerPerceptron(6, 0, [], 4, learning_rate=.00001, momentum_constant=.1, stop_accuracy=.0001)
     # cars.runAlgorithm(ffn)
     #
-    # segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
-    # ffn = MultiLayerPerceptron(19, 2, [8, 8], 7, learning_rate=.01, momentum_constant=.8, stop_accuracy=.0001)
-    # ffn.setLearningAlgorithm(genetic_algorithm)
-    # segmentation.runAlgorithm(ffn)
+    segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
+    ffn = MultiLayerPerceptron(19, 2, [8, 8], 7, learning_rate=.01, momentum_constant=.8, stop_accuracy=.0001)
+    ffn.setLearningAlgorithm(particle_swarm)
+    segmentation.runAlgorithm(ffn)
     # #
     # ===========Regression
     # print("=====Forest Fire Regression (Area Burned (hectares))=====")
@@ -48,29 +48,12 @@ def main():
     # ffn.setLearningAlgorithm(genetic_algorithm)
     # machine.runAlgorithm(ffn)
 
-    print("=====Wine Quality=====")
-    wine = DataSet("../data/winequality.data", target_location=11, regression=True)
-    # wine zero best: MultiLayerPerceptron(11, 0, [], 1, learning_rate=.00001, momentum_constant=.2)
-    ffn = MultiLayerPerceptron(11, 2, [8,8], 1, learning_rate=.00001, momentum_constant=.2, stop_accuracy=0.0001)
-    ffn.setLearningAlgorithm(genetic_algorithm)
-    wine.runAlgorithm(ffn)
-
-
-def runRadialBasisNetworkAlgorithms(cnn, kmeans, medoids, data_set, inputs, outputs,learning_rate):
-    print("Running CNN Initialized Radial Basis Network")
-    cnn_rbf = RadialBasisNetwork(data_set, cnn, inputs, outputs, learning_rate)
-    print("Running K-Means Initialized Radial Basis Network")
-    kmeans_rbf = RadialBasisNetwork(data_set, kmeans, inputs, outputs, learning_rate)
-    print("Running PAM Initialized Radial Basis Network")
-    medoids_rbf = RadialBasisNetwork(data_set, medoids, inputs, outputs, learning_rate)
-
-def getCNNMeansAndMedoids(data_set, k):
-    cnn = CondensedNearestNeighbor(k)
-    data_set.runAlgorithm(cnn)
-    cnn_set = data_set.algo_result
-    means = KMeans(data_set).centroids
-    medoids = PAM(data_set).medoids
-    return cnn_set, means, medoids
+    # print("=====Wine Quality=====")
+    # wine = DataSet("../data/winequality.data", target_location=11, regression=True)
+    # # wine zero best: MultiLayerPerceptron(11, 0, [], 1, learning_rate=.00001, momentum_constant=.2)
+    # ffn = MultiLayerPerceptron(11, 2, [8,8], 1, learning_rate=.00001, momentum_constant=.2, stop_accuracy=0.0001)
+    # ffn.setLearningAlgorithm(differential_evolution)
+    # wine.runAlgorithm(ffn)
 
 if __name__ == '__main__':
     main()

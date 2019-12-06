@@ -21,6 +21,7 @@ class GeneticAlgorithm(LearningAlgorithm):
         self.data_set = mlp.data_set
         self.weight_length = len(mlp.weights)
         self.data_set.makeRandomMap(self.data_set.data, 5)
+        self.weight_length = len(mlp.weights)
         losses = []
         times = []
         for i in range(0, 5):
@@ -29,7 +30,7 @@ class GeneticAlgorithm(LearningAlgorithm):
             start = time.time()
             print("Running Fold {}".format(i))
             print("=== Initializing Population ===")
-            population = self.initPopulation(mlp)
+            population = self.makeCopies(mlp, self.population_count)
             print("=== Population Initialized ===")
             print("=== Starting GA=== ")
             loss = self.runGA(population, train_set,test_set)
@@ -40,7 +41,6 @@ class GeneticAlgorithm(LearningAlgorithm):
         mean_time = numpy.mean(times)
         print("Mean MSE: {}".format(mean_loss))
         print("Mean Time: {}".format(mean_time))
-        self.weight_length = len(mlp.weights)
 
     def runGA(self, population, train_set, test_set):
         accuracies = []
@@ -158,17 +158,4 @@ class GeneticAlgorithm(LearningAlgorithm):
                     # set mutate by getting a random weight from the population and shifting the weight over to it
                     # based on the mutation_shift_constant
                     population[i].weights[j].setWeight(original_weight + update)
-        return population
-
-    def evaluateFitness(self, mlp, set):
-        accuracy = mlp.checkAccuracyAgainstSet(set, mlp.regression)
-        return accuracy
-
-    def initPopulation(self, mlp):
-        population = []
-        for i in range(0, self.population_count):
-            mlp_copy = copy.deepcopy(mlp)
-            mlp_copy.initializeWeights()
-            mlp_copy.getWeightReferences()
-            population.append(mlp_copy)
         return population
