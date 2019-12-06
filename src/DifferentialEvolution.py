@@ -35,6 +35,10 @@ class DifferentialEvolution(LearningAlgorithm):
             end = time.time()
             times.append(end-start)
             losses.append(loss)
+        mean_loss = numpy.mean(losses)
+        mean_time = numpy.mean(times)
+        print("Mean MSE: {}".format(mean_loss))
+        print("Mean Time: {}".format(mean_time))
 
     def runDE(self, population, train_set, test_set):
         current_population = population

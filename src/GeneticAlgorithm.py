@@ -8,7 +8,7 @@ import numpy
 import time
 
 class GeneticAlgorithm(LearningAlgorithm):
-    def __init__(self, population_count=10, mutation_rate=.2, mutation_shift_constant=.3, crossover_rate=.5):
+    def __init__(self, population_count=10, mutation_rate=.1, mutation_shift_constant=.5, crossover_rate=.3):
         self.population_count = population_count
         self.population = None
         self.data_set = None
@@ -92,7 +92,7 @@ class GeneticAlgorithm(LearningAlgorithm):
             else:
                 best_accuracy_test_mlp = copy.deepcopy(best_accuracy_train_mlp)
                 worse_accuracy_counter = 0
-            if worse_accuracy_counter == 5:
+            if worse_accuracy_counter == 15:
                 print("\nFinished: Worse accuracy on test set 5 times in a row")
                 break
             if accuracy_test < best_accuracy_test:
