@@ -2,7 +2,11 @@ from abc import ABC, abstractmethod
 
 
 class Algorithm(ABC):
-    data_set = None
+    """
+    Algorithm class allows for predictable behavior for machine learning algorithms
+    """
+    def __init__(self):
+        self.data_set = None
 
     def run(self, DataSet):
         pass

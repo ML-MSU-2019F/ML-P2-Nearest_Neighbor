@@ -1,7 +1,7 @@
 import numpy
 import random
 import math
-from Weight import Weight
+from Network.Weight import Weight
 
 
 class MLPNode:

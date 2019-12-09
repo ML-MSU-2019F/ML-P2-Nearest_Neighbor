@@ -1,4 +1,4 @@
-from MLPNode import MLPNode
+from Network.MLPNode import MLPNode
 
 
 class Layer:

@@ -4,7 +4,11 @@ import numpy
 from ReadFile import ReadFile
 
 
-class DataSet():
+class DataSet:
+    """
+    DataSet helps to organize and preprocess datasets, grabbing values commonly needed, turning
+    discrete values into continuous ones, and other helpful functionality
+    """
     data = None
     file_path = None
     # used for class, and predictions
@@ -19,7 +23,18 @@ class DataSet():
     algo_result = []
     regression = None
     classes = []
-    def __init__(self, file_path, target_location = None, regression = None, dates=None, days = None, isCars=False, ignore=None):
+    """
+    Arguments:
+        file_path - the path of the file wanted to be turned into a dataset
+        target_location - the location of the data that will be evaluated during training/testing
+        regression - will regression be preformed, is used to prevent normalization to provide
+                     readable results
+         dates - index of where dates are in the data
+         days - index of where days are in the data
+         isCars - cars had special discrete -> continuous mapping, let function know that.
+    """
+    def __init__(self, file_path, target_location=None, regression=None, dates=None, days=None, isCars=False,
+                 ignore=None):
         # set class variables
         self.classes = {}
         self.ordered_classes = []
@@ -125,7 +140,7 @@ class DataSet():
                 result[i].append(float(data[i][j]))
         return result
 
-    #rejoin the data and the class, also for use of normalization
+    # rejoin the data and the class, also for use of normalization
     def joinClassAndData(self, data):
         result = []
         for i in range(0,len(data)):
@@ -157,7 +172,7 @@ class DataSet():
         distance2 = length - distance1
         return min(distance1, distance2)
 
-    # remove collumns specified by argument from self.data
+    # remove columns specified by argument from self.data
     def removeColumns(self, columns):
         map = {}
         for i in columns:

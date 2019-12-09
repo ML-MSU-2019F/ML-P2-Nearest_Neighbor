@@ -2,14 +2,21 @@ import numpy
 import pandas
 import time
 import matplotlib.pyplot as plt
-from MultiLayerPerceptron import MultiLayerPerceptron
+from Network.MultiLayerPerceptron import MultiLayerPerceptron
 from LearningAlgorithm import LearningAlgorithm
 
 
 class Backprop(LearningAlgorithm):
+    """
+    Backprop algorithm
+    Description: uses backprop to learn a MLP provide through the run function
+    """
     def __init__(self):
         self.mlp = None
 
+    """
+    Run method that is called by the top level LearningAlgorithm class from the MultiLayerPerceptron class
+    """
     def run(self, mlp: MultiLayerPerceptron):
         self.mlp = mlp
         data_set = mlp.data_set

@@ -1,7 +1,10 @@
 import os
 
 
-class ReadFile():
+class ReadFile:
+    """
+    Provide basic reading functionality from disk, returns data as a two dimensional array
+    """
     staticmethod
     def read(self,file_path):
         data_array = []

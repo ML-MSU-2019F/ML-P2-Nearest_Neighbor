@@ -2,10 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdff9927-8acb-45b4-b1e1-6001dab851f7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/LearningAlgorithms/DifferentialEvolution.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/LearningAlgorithms/GeneticAlgorithm.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/LearningAlgorithms/ParticleSwarmOptimization.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Network/Weight.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DifferentialEvolution.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DifferentialEvolution.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GeneticAlgorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GeneticAlgorithm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Algorithm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backprop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/LearningAlgorithms/Backprop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataSet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DifferentialEvolution.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GeneticAlgorithm.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Layer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Layer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LearningAlgorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/LearningAlgorithm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MLPNode.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/MLPNode.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MultiLayerPerceptron.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/MultiLayerPerceptron.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/CondensedNearestNeighbor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/EditedNearestNeighbor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/KMeans.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/KNearestNeighbor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/PAM.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ParticleSwarmOptimization.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ReadFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ReadFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Weight.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,6 +50,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Alpine\Documents\GitHub\ML-P2-Nearest_Neighbor\src\Network" />
+      <recent name="C:\Users\Alpine\Documents\GitHub\ML-P2-Nearest_Neighbor\src\LearningAlgorithms" />
       <recent name="C:\Users\Strawberry\PycharmProjects\ML-P2-Nearest_Neighbor\src\NearestNeigbor" />
     </key>
   </component>
@@ -54,7 +75,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\Strawberry\AppData\Local\Programs\Python\Python37-32\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\Alpine\AppData\Local\Programs\Python\Python37-32\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -114,19 +135,29 @@
           <option name="timeStamp" value="148" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/MLPNode.py</url>
+          <url>file://$PROJECT_DIR$/src/Network/MLPNode.py</url>
           <line>165</line>
           <option name="timeStamp" value="217" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/MLPNode.py</url>
+          <url>file://$PROJECT_DIR$/src/Network/MLPNode.py</url>
           <line>140</line>
           <option name="timeStamp" value="220" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/GeneticAlgorithm.py</url>
-          <line>126</line>
+          <url>file://$PROJECT_DIR$/src/LearningAlgorithms/GeneticAlgorithm.py</url>
+          <line>179</line>
           <option name="timeStamp" value="238" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/LearningAlgorithms/ParticleSwarmOptimization.py</url>
+          <line>97</line>
+          <option name="timeStamp" value="240" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/LearningAlgorithms/GeneticAlgorithm.py</url>
+          <line>101</line>
+          <option name="timeStamp" value="241" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

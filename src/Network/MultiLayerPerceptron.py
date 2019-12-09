@@ -1,8 +1,7 @@
 from Algorithm import Algorithm
-from MLPNode import MLPNode
-from Layer import Layer
+from Network.MLPNode import MLPNode
+from Network.Layer import Layer
 from DataSet import DataSet
-from Weight import Weight
 import math
 import numpy
 import matplotlib.pyplot as plt
