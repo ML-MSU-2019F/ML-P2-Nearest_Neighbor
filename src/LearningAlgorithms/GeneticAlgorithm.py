@@ -44,7 +44,7 @@ class GeneticAlgorithm(LearningAlgorithm):
             test_set = self.data_set.getAllRandomExcept(i)
             # start timer to measure algorithm performance
             start = time.time()
-            print("Running Fold {}".format(i))
+            print("Running Fold {}".format(i+1))
             print("=== Initializing Population ===")
             # population is made by making copies of the current network and re-randomizing weights
             population = self.makeCopies(mlp, self.population_count)
@@ -62,9 +62,9 @@ class GeneticAlgorithm(LearningAlgorithm):
         mean_loss = numpy.mean(losses)
         mean_time = numpy.mean(times)
         # print out the means from stats
-        print("Mean MSE: {}".format(mean_loss))
-        print("Mean Time: {}".format(mean_time))
-        print("Mean Generations: {}".format(mean_gens))
+        print("Mean MSE: {:.2f}".format(mean_loss))
+        print("Mean Time: {:.2f}".format(mean_time))
+        print("Mean Generations: {:.2f}".format(mean_gens))
 
     """
     Run GA, considering a population, train set, and test_set
@@ -120,7 +120,7 @@ class GeneticAlgorithm(LearningAlgorithm):
                 # add to the worse counter
                 worse_loss_counter += 1
                 if worse_loss_counter == 25:
-                    print("\nFinished: Worse loss on test set 5 times in a row")
+                    print("\nFinished: Worse loss on test set 25 times in a row")
                     break
             else:
                 # if the loss is better, set the new relative references and reset the counter
@@ -130,7 +130,7 @@ class GeneticAlgorithm(LearningAlgorithm):
             if loss_test < best_loss_test:
                 # set the new reference and print the change out
                 best_loss_test = loss_test
-                print("\nNew best loss: {}".format(best_loss_test))
+                print("\nNew best loss: {:.4f}".format(best_loss_test))
                 print("Gen: ", end="")
             # this losses is used in the next loop, so we need to remove the largest loss
             losses = self.removeLargestloss(losses, worst_index)
@@ -138,7 +138,7 @@ class GeneticAlgorithm(LearningAlgorithm):
             del population[worst_index]
             gen_counter += 1
         # algorithm finished, print final best loss
-        print("Final total loss: {:4f}".format(best_loss_test))
+        print("Final total loss: {:.4f}".format(best_loss_test))
         return best_loss_test, gen_counter
 
     """

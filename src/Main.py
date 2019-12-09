@@ -13,6 +13,8 @@ def main():
     # settings for tone to play when execution is finished
     frequency = 2500  # Set Frequency To 2500 Hertz
     duration = 1000  # Set Duration To 1000 ms == 1 second
+    # to test out different algorithms, in the ffn.setLearningAlgorithm() code substitute either particle swarm,
+    # genetic_algorithm or differential_evolution
     backprop = Backprop()
     particle_swarm = ParticleSwarmOptimization(particle_count=20, individual_bias=0.5, swarm_bias=0.25,
                                                momentum_constant=0.1)
@@ -24,31 +26,44 @@ def main():
     # ffn = MultiLayerPerceptron(8, 0, [], 3, learning_rate=.00001, momentum_constant=.4, stop_accuracy=.0001)
     # ffn.setLearningAlgorithm(particle_swarm)
     # abalone.runAlgorithm(ffn)
-
+    #
     # cars = DataSet("../data/car.data", target_location=6, isCars=True, regression=False);
     # ffn = MultiLayerPerceptron(6, 2, [5, 5], 4, learning_rate=.00001, momentum_constant=.1, stop_accuracy=.0001)
     # ffn.setLearningAlgorithm(particle_swarm)
     # cars.runAlgorithm(ffn)
-    #
-    segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
-    ffn = MultiLayerPerceptron(19, 2, [8, 8], 7, learning_rate=.01, momentum_constant=.8, stop_accuracy=.0001)
-    ffn.setLearningAlgorithm(genetic_algorithm)
-    segmentation.runAlgorithm(ffn)
-    # #
+
+    # segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
+    # ffn = MultiLayerPerceptron(19, 0, [], 7, learning_rate=.01, momentum_constant=.8, stop_accuracy=.0001)
+    # ffn.setLearningAlgorithm(genetic_algorithm)
+    # segmentation.runAlgorithm(ffn)
+    # input("")
+    # ffn.setLearningAlgorithm(differential_evolution)
+    # segmentation.runAlgorithm(ffn)
+    # input("")
+    # ffn.setLearningAlgorithm(particle_swarm)
+    # segmentation.runAlgorithm(ffn)
+
     # ===========Regression
     particle_swarm = ParticleSwarmOptimization(particle_count=10, individual_bias=0.00005, swarm_bias=0.0005,
-                                               momentum_constant=0.001)
-    # print("=====Forest Fire Regression (Area Burned (hectares))=====")
-    # forest_fire = DataSet("../data/forestfires.data", target_location=12, dates=2, days=3, regression=True)
-    # ffn = MultiLayerPerceptron(12, 2, [6, 6], 1, learning_rate=0.001, momentum_constant=.6, stop_accuracy=.1)
-    # ffn.setLearningAlgorithm(particle_swarm)
-    # forest_fire.runAlgorithm(ffn)
+                                                momentum_constant=0.001)
+    print("=====Forest Fire Regression (Area Burned (hectares))=====")
+    forest_fire = DataSet("../data/forestfires.data", target_location=12, dates=2, days=3, regression=True)
+    ffn = MultiLayerPerceptron(12, 1, [5], 1, learning_rate=0.001, momentum_constant=.6, stop_accuracy=.1)
+    ffn.setLearningAlgorithm(genetic_algorithm)
+    forest_fire.runAlgorithm(ffn)
+    input("")
+    ffn.setLearningAlgorithm(differential_evolution)
+    forest_fire.runAlgorithm(ffn)
+    input("")
+    ffn.setLearningAlgorithm(particle_swarm)
+    forest_fire.runAlgorithm(ffn)
     #
     # print("=====Machine Performance Regression (relative performance)=====")
-    machine = DataSet("../data/machine.data", target_location=7, ignore=[0, 1], regression=True)
-    ffn = MultiLayerPerceptron(7, 2, [6, 6], 1, learning_rate=.001, momentum_constant=.2, stop_accuracy=0.0001)
-    ffn.setLearningAlgorithm(particle_swarm)
-    machine.runAlgorithm(ffn)
+    # machine = DataSet("../data/machine.data", target_location=7, ignore=[0, 1], regression=True)
+    # ffn = MultiLayerPerceptron(7, 2, [6, 6], 1, learning_rate=.001, momentum_constant=.2, stop_accuracy=0.0001)
+    # ffn.setLearningAlgorithm(particle_swarm)
+    # machine.runAlgorithm(ffn)
+    #
     # print("=====Wine Quality=====")
     # wine = DataSet("../data/winequality.data", target_location=11, regression=True)
     # # wine zero best: MultiLayerPerceptron(11, 0, [], 1, learning_rate=.00001, momentum_constant=.2)
@@ -56,7 +71,8 @@ def main():
     # ffn.setLearningAlgorithm(particle_swarm)
     # wine.runAlgorithm(ffn)
 
-    winsound.Beep(frequency, duration)
+    # uncomment to beep on completion
+    # winsound.Beep(frequency, duration)
 
 if __name__ == '__main__':
     main()

@@ -2,29 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdff9927-8acb-45b4-b1e1-6001dab851f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/LearningAlgorithms/DifferentialEvolution.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/LearningAlgorithms/GeneticAlgorithm.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/LearningAlgorithms/ParticleSwarmOptimization.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Weight.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Algorithm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backprop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/LearningAlgorithms/Backprop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataSet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DifferentialEvolution.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GeneticAlgorithm.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Layer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Layer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LearningAlgorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/LearningAlgorithm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MLPNode.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/MLPNode.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LearningAlgorithms/DifferentialEvolution.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/LearningAlgorithms/DifferentialEvolution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LearningAlgorithms/GeneticAlgorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/LearningAlgorithms/GeneticAlgorithm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LearningAlgorithms/ParticleSwarmOptimization.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/LearningAlgorithms/ParticleSwarmOptimization.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MultiLayerPerceptron.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/MultiLayerPerceptron.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/CondensedNearestNeighbor.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/EditedNearestNeighbor.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/KMeans.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/KNearestNeighbor.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NearestNeigbor/PAM.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ParticleSwarmOptimization.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ReadFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ReadFile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Weight.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

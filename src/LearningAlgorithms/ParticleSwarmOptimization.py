@@ -40,7 +40,7 @@ class ParticleSwarmOptimization(LearningAlgorithm):
             test_set = self.data_set.getAllRandomExcept(i)
             # start timer to measure algorithm performance
             start = time.time()
-            print("Running Fold {}".format(i))
+            print("Running Fold {}".format(i+1))
             print("=== Initializing Particles ===")
             # particles are made by making copies of the current network and re-randomizing weights
             particles = self.makeCopies(mlp, self.particle_count)
@@ -58,9 +58,9 @@ class ParticleSwarmOptimization(LearningAlgorithm):
         mean_time = numpy.mean(times)
         mean_iter = numpy.mean(iterations)
         # print out the means from stats
-        print("Mean MSE: {}".format(mean_loss))
-        print("Mean Time: {}".format(mean_time))
-        print("Mean Iterations: {}".format(mean_iter))
+        print("Mean MSE: {:.2f}".format(mean_loss))
+        print("Mean Time: {:.2f}".format(mean_time))
+        print("Mean Iterations: {:.2f}".format(mean_iter))
 
     """
     Run the PSO algorithm, considering a set of particles, a train set and a test set
@@ -71,7 +71,7 @@ class ParticleSwarmOptimization(LearningAlgorithm):
         gb_weights = None
         gb_mlp = None
         # count times loss does not improve
-        loss_loss_count = 0
+        degraded_loss_count = 0
         # test set global fitness
         gb_test_fitness = math.inf
         # personal particle tracking
@@ -137,19 +137,21 @@ class ParticleSwarmOptimization(LearningAlgorithm):
                 # if it is better than our current best
                 if test_set_loss < gb_test_fitness:
                     # reset the loss count
-                    loss_loss_count = 0
+                    degraded_loss_count = 0
                     # set the new global best test fitness
                     gb_test_fitness = test_set_loss
                     # print out this information
                     print("\nNew best loss: {:.4f}".format(gb_test_fitness))
                     print("Iteration: ", end="")
                 else:
-                    # didn't improve loss
-                    loss_loss_count += 1
-                    # if loss doesn't improve for 20 generations, count plateau as best and break
-                    if loss_loss_count > 20:
-                        print("\nFinished: loss plateaued for 20 generations")
-                        break
+                    degraded_loss_count += 1
+            else:
+                # didn't improve loss
+                degraded_loss_count += 1
+                # if loss doesn't improve for 20 generations, count plateau as best and break
+            if degraded_loss_count > 20:
+                print("\nFinished: loss plateaued for 20 generations")
+                break
             iter_count += 1
         return gb_train_fitness, iter_count
 

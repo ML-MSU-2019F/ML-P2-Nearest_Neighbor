@@ -41,7 +41,7 @@ class DifferentialEvolution(LearningAlgorithm):
             test_set = self.data_set.getAllRandomExcept(i)
             # start timer to measure algorithm performance
             start = time.time()
-            print("Running Fold {}".format(i))
+            print("Running Fold {}".format(i+1))
             print("=== Initializing Population ===")
             # population is made by making copies of the current network and re-randomizing weights
             population = self.makeCopies(mlp, self.population_count)
@@ -59,9 +59,9 @@ class DifferentialEvolution(LearningAlgorithm):
         mean_loss = numpy.mean(losses)
         mean_time = numpy.mean(times)
         # print out the means from stats
-        print("Mean MSE: {}".format(mean_loss))
-        print("Mean Time: {}".format(mean_time))
-        print("Mean Generations: {}".format(mean_gens))
+        print("Mean MSE: {:.2f}".format(mean_loss))
+        print("Mean Time: {:.2f}".format(mean_time))
+        print("Mean Generations: {:.2f}".format(mean_gens))
 
     """
     Run DE algorithm, considering a population, train set and test set
@@ -133,14 +133,14 @@ class DifferentialEvolution(LearningAlgorithm):
                 # reset stagnation counter
                 stagnation_counter = 0
                 # print out this information
-                print("\nNew best loss: {:4f}".format(loss_best_test))
+                print("\nNew best loss: {:.4f}".format(loss_best_test))
                 print("Gen: ", end="")
             else:
                 # our loss didn't improve enough, add 1 to counter
                 stagnation_counter += 1
             # our population did not improve for 25 generations, stop algorithm
             if stagnation_counter == 25:
-                print("Finished, loss didn't improve for 25 generations")
+                print("\nFinished, loss didn't improve for 25 generations")
                 break
             # our current population is now our current next population
             current_population = next_population
