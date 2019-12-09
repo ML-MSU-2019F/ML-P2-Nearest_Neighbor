@@ -22,26 +22,20 @@ def main():
                                          crossover_rate=0.3)
     differential_evolution = DifferentialEvolution(population_count=10, replacement_p=0.9, beta=0.8)
     # ========Classification
-    # abalone = DataSet("../data/abalone.data", 0, regression=False)
-    # ffn = MultiLayerPerceptron(8, 0, [], 3, learning_rate=.00001, momentum_constant=.4, stop_accuracy=.0001)
-    # ffn.setLearningAlgorithm(particle_swarm)
-    # abalone.runAlgorithm(ffn)
-    #
-    # cars = DataSet("../data/car.data", target_location=6, isCars=True, regression=False);
-    # ffn = MultiLayerPerceptron(6, 2, [5, 5], 4, learning_rate=.00001, momentum_constant=.1, stop_accuracy=.0001)
-    # ffn.setLearningAlgorithm(particle_swarm)
-    # cars.runAlgorithm(ffn)
+    abalone = DataSet("../data/abalone.data", 0, regression=False)
+    ffn = MultiLayerPerceptron(8, 0, [], 3, learning_rate=.00001, momentum_constant=.4, stop_accuracy=.0001)
+    ffn.setLearningAlgorithm(particle_swarm)
+    abalone.runAlgorithm(ffn)
 
-    # segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
-    # ffn = MultiLayerPerceptron(19, 0, [], 7, learning_rate=.01, momentum_constant=.8, stop_accuracy=.0001)
-    # ffn.setLearningAlgorithm(genetic_algorithm)
-    # segmentation.runAlgorithm(ffn)
-    # input("")
-    # ffn.setLearningAlgorithm(differential_evolution)
-    # segmentation.runAlgorithm(ffn)
-    # input("")
-    # ffn.setLearningAlgorithm(particle_swarm)
-    # segmentation.runAlgorithm(ffn)
+    cars = DataSet("../data/car.data", target_location=6, isCars=True, regression=False);
+    ffn = MultiLayerPerceptron(6, 2, [5, 5], 4, learning_rate=.00001, momentum_constant=.1, stop_accuracy=.0001)
+    ffn.setLearningAlgorithm(particle_swarm)
+    cars.runAlgorithm(ffn)
+
+    segmentation = DataSet("../data/segmentation.data", target_location=0, regression=False)
+    ffn = MultiLayerPerceptron(19, 0, [], 7, learning_rate=.01, momentum_constant=.8, stop_accuracy=.0001)
+    ffn.setLearningAlgorithm(genetic_algorithm)
+    segmentation.runAlgorithm(ffn)
 
     # ===========Regression
     particle_swarm = ParticleSwarmOptimization(particle_count=10, individual_bias=0.00005, swarm_bias=0.0005,
@@ -51,25 +45,18 @@ def main():
     ffn = MultiLayerPerceptron(12, 1, [5], 1, learning_rate=0.001, momentum_constant=.6, stop_accuracy=.1)
     ffn.setLearningAlgorithm(genetic_algorithm)
     forest_fire.runAlgorithm(ffn)
-    input("")
-    ffn.setLearningAlgorithm(differential_evolution)
-    forest_fire.runAlgorithm(ffn)
-    input("")
+
+    print("=====Machine Performance Regression (relative performance)=====")
+    machine = DataSet("../data/machine.data", target_location=7, ignore=[0, 1], regression=True)
+    ffn = MultiLayerPerceptron(7, 2, [6, 6], 1, learning_rate=.001, momentum_constant=.2, stop_accuracy=0.0001)
     ffn.setLearningAlgorithm(particle_swarm)
-    forest_fire.runAlgorithm(ffn)
-    #
-    # print("=====Machine Performance Regression (relative performance)=====")
-    # machine = DataSet("../data/machine.data", target_location=7, ignore=[0, 1], regression=True)
-    # ffn = MultiLayerPerceptron(7, 2, [6, 6], 1, learning_rate=.001, momentum_constant=.2, stop_accuracy=0.0001)
-    # ffn.setLearningAlgorithm(particle_swarm)
-    # machine.runAlgorithm(ffn)
-    #
-    # print("=====Wine Quality=====")
-    # wine = DataSet("../data/winequality.data", target_location=11, regression=True)
-    # # wine zero best: MultiLayerPerceptron(11, 0, [], 1, learning_rate=.00001, momentum_constant=.2)
-    # ffn = MultiLayerPerceptron(11, 2, [5, 5], 1, learning_rate=.00001, momentum_constant=.2, stop_accuracy=0.0001)
-    # ffn.setLearningAlgorithm(particle_swarm)
-    # wine.runAlgorithm(ffn)
+    machine.runAlgorithm(ffn)
+
+    print("=====Wine Quality=====")
+    wine = DataSet("../data/winequality.data", target_location=11, regression=True)
+    ffn = MultiLayerPerceptron(11, 2, [5, 5], 1, learning_rate=.00001, momentum_constant=.2, stop_accuracy=0.0001)
+    ffn.setLearningAlgorithm(particle_swarm)
+    wine.runAlgorithm(ffn)
 
     # uncomment to beep on completion
     # winsound.Beep(frequency, duration)
