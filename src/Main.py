@@ -6,13 +6,10 @@ from LearningAlgorithms.DifferentialEvolution import DifferentialEvolution
 from LearningAlgorithms.ParticleSwarmOptimization import ParticleSwarmOptimization
 import winsound
 # Main in this project is used to stage and run algorithms.  The algorithms for this project that are being run are:
-# CNN, KMeans, PAM - MLP, and RBF.
+# Genetic, Differential Evolution, and particle swarm optimization
 # All the examples will be uncommented, it is highly recommended you comment out all datasets and algorithms except
 # the ones you want
 def main():
-    # settings for tone to play when execution is finished
-    frequency = 2500  # Set Frequency To 2500 Hertz
-    duration = 1000  # Set Duration To 1000 ms == 1 second
     # to test out different algorithms, in the ffn.setLearningAlgorithm() code substitute either particle swarm,
     # genetic_algorithm or differential_evolution
     backprop = Backprop()
@@ -57,9 +54,6 @@ def main():
     ffn = MultiLayerPerceptron(11, 2, [5, 5], 1, learning_rate=.00001, momentum_constant=.2, stop_accuracy=0.0001)
     ffn.setLearningAlgorithm(particle_swarm)
     wine.runAlgorithm(ffn)
-
-    # uncomment to beep on completion
-    # winsound.Beep(frequency, duration)
 
 if __name__ == '__main__':
     main()

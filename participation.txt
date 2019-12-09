@@ -1,5 +1,3 @@
-Keefer Sands - KMeans, ENN, Base Class structure
-Becket Sweeny - CNN, DataSet
-Mathew Gober - KNN, PAM, Data Importing
-
-We did a bit of pair-programming for this assignment
+Keefer Sands - Genetic Algorithm, adapting MLP to new structure
+Becket Sweeny - Particle Swarm Optimization
+Mathew Gober - Derived Evolution

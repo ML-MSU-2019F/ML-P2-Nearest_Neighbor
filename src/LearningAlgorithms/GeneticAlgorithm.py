@@ -77,7 +77,6 @@ class GeneticAlgorithm(LearningAlgorithm):
             losses.append((loss, i))
         # track the best test loss and the relative mlp
         best_loss_test = math.inf
-        best_loss_test_mlp = None
         # track how many generations had worse loss
         worse_loss_counter = 0
         gen_counter = 0
@@ -124,7 +123,6 @@ class GeneticAlgorithm(LearningAlgorithm):
                     break
             else:
                 # if the loss is better, set the new relative references and reset the counter
-                best_loss_test_mlp = copy.deepcopy(best_loss_train_mlp)
                 worse_loss_counter = 0
             # if the best training mlp's test loss is better than our current best loss from testing
             if loss_test < best_loss_test:
